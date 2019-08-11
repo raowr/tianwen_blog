@@ -11,7 +11,7 @@
         <h2>我的相册</h2>
         <ul>
         {{range $index, $elem := .albums}}
-            <li><a href="/"><img src="{{$elem.Cover}}"></a></li>
+            <li><a href="/infopic?id={{$elem.Id}}"><img src="{{$elem.Cover}}"></a></li>
         {{end}}
         </ul>
       </div>
@@ -37,14 +37,14 @@
         <h2>站长推荐</h2>
         <ul>
         {{range $index, $elem := .ArticleRecommend}}
-            <li><a href="/">{{$elem.Title}}</a></li>
+            <li><a href="/info?id={{$elem.Id}}">{{$elem.Title}}</a></li>
         {{end}}
         </ul>
       </div>
       <div class="links">
         <h2>友情链接</h2>
         <ul>
-          <a href="http://www.yangqq.com">杨青个人博客</a> <a href="http://www.yangqq.com">杨青博客</a>
+          <a href="/">饶文然个人博客</a> <a href="/">饶文然博客</a>
         </ul>
       </div>
       <div class="guanzhu">
