@@ -1,0 +1,97 @@
+package admin
+
+import (
+	"simple_blog/models"
+	"strconv"
+)
+
+type ArticleController struct {
+	BaseController
+}
+
+func (c *ArticleController) List()  {
+	page,pagesize := c.getPage()
+	var articles []*models.Article
+	article := new(models.Article)
+	article.Query().Limit(pagesize,(page -1 )*pagesize).All(&articles)
+	for i,value := range articles{
+		articles[i].Content = string([]rune(value.Content)[:80])
+	}
+	if c.Ctx.Request.Method == "POST"{
+		c.Data["json"] = articles
+		c.ServeJSON()
+	}
+	c.Data["list"] = articles
+	c.Data["total"],_ = article.Query().Count()
+	c.display("admin/article/list")
+}
+
+func (c *ArticleController) Add()  {
+	if c.Ctx.Request.Method == "POST"{
+		title := c.GetString("title")
+		tags := c.GetString("tags")
+		status,_ := c.GetInt("status")
+		content := c.GetString("content")
+		bannerUrl := c.GetString("bannerUrl")
+		recommend,_ := c.GetInt("recommend")
+		adminInfo := c.GetSession("admin")
+		admin, _ := adminInfo.(models.Admin)
+
+		Article := new(models.Article)
+		Article.Title = title
+		Article.Tags = tags
+		Article.Status = status
+		Article.Content = content
+		Article.BannerUrl = bannerUrl
+		Article.Recommend = recommend
+		Article.Author = strconv.Itoa(admin.Id)
+		Article.Updated = c.getTime()
+		Article.CreateTime = c.getTime()
+		re := make(map[string]interface{})
+		re["code"] = 200
+		re["msg"] = "发布成功"
+		if err := Article.Insert(); err !=nil{
+			re["code"] = 201
+			re["msg"] = err
+		}
+		c.Data["json"] = re
+		c.ServeJSON()
+
+	}
+	c.display("admin/article/add")
+}
+
+func (c *ArticleController) Edit()  {
+	id,_ := strconv.Atoi(c.GetString("id"))
+	article := models.Article{Id:id}
+	articleData := models.Article{}
+	if c.Ctx.Request.Method == "POST"{
+		article.Query().One(&articleData,"CreateTime")
+		title := c.GetString("title")
+		tags := c.GetString("tags")
+		status,_ := c.GetInt("status")
+		content := c.GetString("content")
+		bannerUrl := c.GetString("bannerUrl")
+		recommend,_ := c.GetInt("recommend")
+		article.Title = title
+		article.Tags = tags
+		article.Status = status
+		article.Content = content
+		article.BannerUrl = bannerUrl
+		article.Recommend = recommend
+		article.Updated = c.getTime()
+		article.CreateTime = articleData.CreateTime
+		re := make(map[string]interface{})
+		re["code"] = 200
+		re["msg"] = "编辑成功"
+		if err := article.Update(); err !=nil{
+			re["code"] = 201
+			re["msg"] = err
+		}
+		c.Data["json"] = re
+		c.ServeJSON()
+	}
+	article.Read()
+	c.Data["article"] = article
+	c.display("admin/article/edit")
+}

@@ -1,0 +1,292 @@
+<script src="/static/js/jquery.min.js" type="text/javascript"></script>
+<script src="/static/js/piccontent.min.js" type="text/javascript"></script>
+<script type="text/javascript" src="/static/js/hc-sticky.js"></script>
+<script type="text/javascript" src="/static/js/comm.js"></script>
+<!--[if lt IE 9]>
+<script src="/static/js/modernizr.js"></script>
+<![endif]-->
+<link rel="stylesheet" href="/static/myPagination/myPagination.css">
+<script src="/static/myPagination/myPagination.js"></script>
+<article>
+  <aside class="l_box">
+    <div class="about_me">
+      <h2>关于我</h2>
+      <ul>
+        <i><img src="/static/img/4.jpg"></i>
+        <p><b>饶文然</b>，一个90后草根程序员！16年入行。一直潜心研究web开发技术，一边工作一边积累经验，分享一些个人博客模板，以及网站开发等心得。</p>
+      </ul>
+    </div>
+    <div class="wdxc">
+      <h2>我的相册</h2>
+      <ul>
+        {{range $index,$item := .albums}}
+        <li><a href="/"><img src="{{$item.Cover}}"></a></li>
+        {{end}}
+      </ul>
+    </div>
+     <div class="search">
+      <form action="/e/search/index.php" method="post" name="searchform" id="searchform">
+        <input name="keyboard" id="keyboard" class="input_text" value="请输入关键字词" style="color: rgb(153, 153, 153);" onfocus="if(value=='请输入关键字词'){this.style.color='#000';value=''}" onblur="if(value==''){this.style.color='#999';value='请输入关键字词'}" type="text">
+        <input name="show" value="title" type="hidden">
+        <input name="tempid" value="1" type="hidden">
+        <input name="tbname" value="news" type="hidden">
+        <input name="Submit" class="input_submit" value="搜索" type="submit">
+      </form>
+    </div>
+    <div class="fenlei">
+      <h2>文章分类</h2>
+      <ul>
+        <li><a href="/">学无止境（{{ .ArticleTagsCount.study}}）</a></li>
+        <li><a href="/">日记（{{ .ArticleTagsCount.journal}}）</a></li>
+        <li><a href="/">慢生活（{{ .ArticleTagsCount.life}}）</a></li>
+        <li><a href="/">美文欣赏（{{ .ArticleTagsCount.bellesLettres}}）</a></li>
+      </ul>
+    </div>
+
+    <div class="guanzhu">
+      <h2>关注我 么么哒</h2>
+      <ul>
+        <img src="/static/img/wx.png">
+      </ul>
+    </div>
+  </aside>
+  <main>
+  <div class="picsbox">
+    <div class="bodymodal"></div>
+    <!--播放到第一张图的提示-->
+    <div class="firsttop">
+      <div class="firsttop_right">
+        <div class="close2"> <a class="closebtn1" title="关闭" href="javascript:void(0)"></a> </div>
+        <div class="replay">
+          <h2 id="div-end-h2"> 已到第一张图片了。 </h2>
+          <p> <a class="replaybtn1" href="javascript:;">重新播放</a> </p>
+        </div>
+      </div>
+    </div>
+    <!--播放到最后一张图的提示-->
+    <div class="endtop">
+      <div class="firsttop_right">
+        <div class="close2"> <a class="closebtn2" title="关闭" href="javascript:void(0)"></a> </div>
+        <div class="replay">
+          <h2 id="H1"> 已到最后一张图片了。 </h2>
+          <p> <a class="replaybtn2" href="javascript:;">重新播放</a> </p>
+        </div>
+      </div>
+    </div>
+    <!--弹出层结束-->
+    <!--图片特效内容开始-->
+    <div class="piccontext">
+      <h2> {{.albumInfo.Title}} </h2>
+      <div class="source">
+        <div class="source_left"><span>{{.albumCreaTime}}</span> </div>
+        <div class="source_right"> <a href="javascript:;" class="list">列表查看</a> </div>
+        <div class="source_right1"> <a href="javascript:;" class="gaoqing">高清查看</a> </div>
+      </div>
+      <!--大图展示-->
+      <div class="picshow">
+        <div class="picshowtop"> <a href="#"><img src="" alt="" id="pic1" curindex="0" /></a> <a id="preArrow" href="javascript:void(0)" class="contextDiv" title="上一张"><span id="preArrow_A"></span></a> <a id="nextArrow" href="javascript:void(0)" class="contextDiv" title="下一张"><span id="nextArrow_A"></span></a> </div>
+        <div class="picshowtxt">
+          <div class="picshowtxt_left"><span>1</span>/<i>{{.photosCount}}</i></div>
+          <div class="picshowtxt_right"></div>
+        </div>
+        <div class="picshowlist">
+          <div class="picshowlist_mid">
+            <div class="picmidleft"> <a href="javascript:void(0)" id="preArrow_B"><span class="sleft"></span></a> </div>
+            <div class="picmidmid">
+              <ul>
+                  {{range $index,$item := .photos}}
+                <li> <a href="javascript:void(0);"><img src="{{$item.Url}}" alt="" bigimg="{{$item.Url}}" text="" /></a></li>
+                  {{end}}
+              </ul>
+            </div>
+            <div class="picmidright"> <a href="javascript:void(0)" id="nextArrow_B"><span class="sright"></span></a> </div>
+          </div>
+        </div>
+      </div>
+
+      <!--列表展示-->
+      <div class="piclistshow">
+        <ul>
+{{range $index,$item := .photos}}
+  {{if lt $index 6}}
+          <li>
+            <div class="picimg"><img src="{{$item.Url}}" alt="" /></div>
+          </li>
+   {{end}}
+{{end}}
+        </ul>
+          <div id="pagination" class="pagination"><ul><li>首页</li><li class="disabled">&lt;</li><li class="active">1</li><li>2</li><li>3</li><li>4</li><li>5</li><li>&gt;</li><li>尾页</li><li class="totalPage"><span>跳转到</span><input type="number"><span>页</span></li><li class="totalPage">共&nbsp;50&nbsp;页</li><li class="totalPage">每页&nbsp;10&nbsp;条</li><li class="totalPage">合计&nbsp;500&nbsp;条数据</li></ul></div>
+      </div>
+    </div>
+    <div class="pictext">
+      {{.album.Describe}}
+    </div>
+    <div class="share">
+      <!-- <p class="diggit"><a href="JavaScript:makeRequest('/e/public/digg/?classid=3&amp;id=19&amp;dotop=1&amp;doajax=1&amp;ajaxarea=diggnum','EchoReturnedText','GET','');"> 很赞哦！ </a>(<b id="diggnum"><script type="text/javascript" src="/e/public/ViewClick/?classid=2&id=20&down=5"></script>13</b>)</p> -->
+    </div>
+ <div class="nextinfo">
+     {{if .albumInfo.prefixId}}
+      <p>上一篇：<a href="/infopic?id={{.albumInfo.prefixId}}">{{.albumInfo.prefixTitle}}</a></p>
+      {{end}}
+{{if .albumInfo.nextId}}
+      <p>下一篇：<a href="/infopic?id={{.albumInfo.nextId}}">{{.albumInfo.nextTitle}}</a></p>
+{{end}}
+    </div>
+    <div class="news_pl">
+        <h2>文章评论</h2>
+        <div class="gbko">
+            <div id="comments">
+                {{range $index,$item := .commentList}}
+              <div class="fb">
+                <ul>
+                  <p class="fbtime"><span>{{$item.CreateTime}}</span>{{$item.Name}}</p>
+                  <p class="fbinfo">{{$item.Content}}</p>
+                </ul>
+              </div>
+            {{end}}
+            </div>
+            <div style="overflow: hidden;"><div id="paginationComment" class="pagination"><ul><li>首页</li><li class="disabled">&lt;</li><li class="active">1</li><li>2</li><li>3</li><li>4</li><li>5</li><li>&gt;</li><li>尾页</li><li class="totalPage"><span>跳转到</span><input type="number"><span>页</span></li><li class="totalPage">共&nbsp;50&nbsp;页</li><li class="totalPage">合计&nbsp;500&nbsp;条数据</li></ul></div></div>
+            <form action="/e/pl/doaction.php" method="post" name="saypl" id="saypl" onsubmit="return CheckPl(document.saypl)">
+                <input name="id" type="hidden" id="id" value="{{.albumInfo.Id}}">
+                <div id="plpost">
+              <p class="saying"><span><a href="/e/pl/?classid=77&amp;id=106"></a></span>来说两句吧...</p>
+              <p class="yname"><span>用户名:</span>
+                <input name="name" type="text" class="inputText" id="username" value="" size="16">
+              </p>
+              <textarea name="saytext" rows="6" id="saytext"></textarea>
+              <input name="submit" type="submit" value="提交">
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </main>
+</article>
+
+<script>
+    window.onload = function () {
+        new myPagination({
+            id: 'pagination',
+            curPage:1, //初始页码
+            pageTotal: {{.pageTotal}}, //总页数
+            pageAmount: 6,  //每页多少条
+            dataTotal: {{.photosCount}}, //总共多少条数据
+            pageSize: 2, //可选,分页个数
+            showPageTotalFlag:true, //是否显示数据统计
+            showSkipInputFlag:true, //是否支持跳转
+            getPage: function (page) {
+                //获取当前页数
+                console.log(page);
+                var data = new FormData();
+                data.append("id",{{.albumInfo.Id}});
+                data.append("page",page);
+                $.ajax({
+                    processData: false,//这个必须有，不然会报错
+                    contentType: false,//这个必须有，不然会报错
+                    type: "POST",
+                    url:"/infopic/photos",
+                    data:data,
+                    async: false,
+                    dataType:"json" ,
+                    success: function(data) {
+                        var html = '';
+                        data.forEach(function (v,i) {
+                            html += '<li>\n' +
+                                    '            <div class="picimg"><img src="'+v.Url+'" alt="" /></div>\n' +
+                                    '          </li>';
+                        });
+                        $(".piclistshow>ul").html(html)
+                    }
+                });
+            }
+        })
+        new myPagination({
+            id: 'paginationComment',
+            curPage:1, //初始页码
+            pageTotal: {{.commentPageTotal}}, //总页数
+            pageAmount: 6,  //每页多少条
+            dataTotal: {{.commentCount}}, //总共多少条数据
+            pageSize: 3, //可选,分页个数
+            showPageTotalFlag:true, //是否显示数据统计
+            showSkipInputFlag:true, //是否支持跳转
+            getPage: function (page) {
+                //获取当前页数
+                var data = new FormData();
+                data.append("id",{{.albumInfo.Id}});
+                data.append("page",page);
+                $.ajax({
+                    processData: false,//这个必须有，不然会报错
+                    contentType: false,//这个必须有，不然会报错
+                    type: "POST",
+                    url:"/infopic/comment",
+                    data:data,
+                    async: false,
+                    dataType:"json" ,
+                    success: function(re) {
+                        var html = '';
+                        Object.keys(re).forEach(function (key) {
+                            html += '  <div class="fb">\n' +
+                                    '                <ul>\n' +
+                                    '                  <p class="fbtime"><span>'+re[key].CreateTime+'</span>'+re[key].Name+'</p>\n' +
+                                    '                  <p class="fbinfo">'+re[key].Content+'</p>\n' +
+                                    '                </ul>\n' +
+                                    '              </div>';
+                        });
+                        $("#comments").html(html)
+                    }
+                });
+            }
+        })
+
+    }
+
+    function CheckPl(obj)
+    {
+        if(obj.saytext.value=="")
+        {
+            alert("您没什么话要说吗？");
+            obj.saytext.focus();
+            return false;
+        }
+        return true;
+    }
+    $("input[name=submit]").click(function (e) {
+        var id = $("input[name=id]").val();
+        var name = $("input[name=name]").val();
+        var saytext = $("textarea[name=saytext]").val();
+        if(id == "") {
+            alert("相册不存在");
+            return false;
+        }
+        if(name == "") {
+            alert("请填写你的姓名");
+            return false;
+        }
+        if(saytext == "") {
+            alert("请填写你想说的");
+            return false;
+        }
+        var data = new FormData();
+        data.append("id",id);
+        data.append("name",name);
+        data.append("saytext",saytext);
+        $.ajax({
+            processData: false,//这个必须有，不然会报错
+            contentType: false,//这个必须有，不然会报错
+            type: "POST",
+            url:"/infopic/comment_add",
+            data:data,
+            async: false,
+            dataType:"json" ,
+            success: function(data) {
+                if(data.status == 200){
+                    alert(data.message);
+                    window.location.href="/infopic?id="+id;
+                }else {
+                    alert(data.message)
+                }
+            }
+        });
+        return false;
+    })
+</script>

@@ -1,0 +1,43 @@
+<link rel="stylesheet" href="/static/photolist/css/style.css" type="text/css" media="all" />
+{{/*<link href='http://fonts.googleapis.com/css?family=Damion' rel='stylesheet' type='text/css'>*/}}
+<script src="/static/photolist/js/jquery-1.10.1.min.js"></script>
+<script src="/static/photolist/js/modernizr.custom.js"></script>
+<script src="/static/photolist/js/script.js"></script>
+<div class="container">
+    <div class="main">
+        <ul id="og-grid" class="og-grid">
+        {{range $index, $elem := .list}}
+            <li style="height: 188px;width: 300px;">
+                <a href="#" data-largesrc="{{$elem.Url}}" data-id="{{$elem.Id}}" data-title="心美人更美" data-description="Swiss chard pumpkin bunya nuts maize plantain aubergine napa cabbage soko coriander sweet pepper water spinach winter purslane shallot tigernut lentil beetroot.">
+                    <img src="{{$elem.Url}}" alt="{{$elem.Id}}"/>
+                </a>
+            </li>
+        {{end}}
+        </ul>
+    </div>
+</div><!-- /container -->
+<script src="/static/photolist/js/grid.js"></script>
+<script>
+    $(function() {
+        Grid.init();
+    });
+    $("#og-grid").on( 'click', '.read-more', function() {
+        var formData = new FormData();
+        formData.append('id',$(this).data("id"));
+        if(confirm("确认删除？")){
+            axios.post('/photo/delete',formData)
+                    .then((response)=>{
+                        alert(response.data.msg)
+                        location.reload();
+                    })
+                    .catch((error)=>{
+                        this.$message.error(error);
+                    });
+
+        }
+        return false;
+    })
+</script>
+<div class="copy_right">
+
+</div>

@@ -1,0 +1,238 @@
+<link rel="stylesheet" href="/static/myPagination/myPagination.css">
+<script src="/static/myPagination/myPagination.js"></script>
+<article>
+  <aside class="l_box">
+    <div class="search">
+      <form action="/e/search/index.php" method="post" name="searchform" id="searchform">
+        <input name="keyboard" id="keyboard" class="input_text" value="请输入关键字词" style="color: rgb(153, 153, 153);" onfocus="if(value=='请输入关键字词'){this.style.color='#000';value=''}" onblur="if(value==''){this.style.color='#999';value='请输入关键字词'}" type="text">
+        <input name="show" value="title" type="hidden">
+        <input name="tempid" value="1" type="hidden">
+        <input name="tbname" value="news" type="hidden">
+        <input name="Submit" class="input_submit" value="搜索" type="submit">
+      </form>
+    </div>
+    <div class="fenlei">
+      <h2>文章分类</h2>
+      <ul>
+        <li><a href="/">学无止境（{{.ArticleTagsCount.study}}）</a></li>
+        <li><a href="/">日记（{{.ArticleTagsCount.journal}}）</a></li>
+        <li><a href="/">慢生活（{{.ArticleTagsCount.life}}）</a></li>
+        <li><a href="/">美文欣赏（{{.ArticleTagsCount.bellesLettres}}）</a></li>
+      </ul>
+    </div>
+    <div class="tuijian">
+      <h2>站长推荐</h2>
+      <ul>
+      {{range $index, $elem := .ArticleRecommend}}
+          <li><a href="/">{{$elem.Title}}</a></li>
+      {{end}}
+      </ul>
+    </div>
+    <div class="tuijian">
+      <h2>点击排行</h2>
+      <ul>
+      {{range $index, $elem := .ArticleViews}}
+          <li><a href="/">{{$elem.Title}}</a></li>
+      {{end}}
+      </ul>
+    </div>
+    <div class="cloud">
+      <h2>标签云</h2>
+      <ul>
+          <a href="/">热情</a> <a href="/">开朗</a> <a href="/">html5</a> <a href="/">SumSung</a> <a href="/">青春</a> <a href="/">温暖</a> <a href="/">阳光</a> <a href="/">PHP</a><a href="/">Vue</a> <a href="/">MySql</a> <a href="/">Ngnix</a> <a href="/">CSS</a><a href="/">Linux</a>
+      </ul>
+    </div>
+    <div class="guanzhu">
+      <h2>关注我 么么哒</h2>
+      <ul>
+        <img src="/static/img/wx.png">
+      </ul>
+    </div>
+  </aside>
+  <main>
+    <div class="infosbox">
+      <div class="newsview">
+        <h3 class="news_title">{{.Article.title}}</h3>
+        <div class="bloginfo">
+          <ul>
+            <li class="author">作者：<a href="/">{{.Article.author}}</a></li>
+            <li class="lmname"><a href="/">{{.Article.tags}}</a></li>
+            <li class="timer">时间：{{.Article.createTime}}</li>
+            <li class="view">{{.Article.views}}人已阅读</li>
+          </ul>
+        </div>
+        <div class="tags"><a href="/" target="_blank">小博客</a> &nbsp; <a href="/" target="_blank">大世界</a></div>
+      {{.Article.content}}
+      </div>
+      <div class="share">
+        {{/*<p class="diggit"><a href="JavaScript:makeRequest('/e/public/digg/?classid=3&amp;id=19&amp;dotop=1&amp;doajax=1&amp;ajaxarea=diggnum','EchoReturnedText','GET','');"> 很赞哦！ </a>(<b id="diggnum"><script type="text/javascript" src="/e/public/ViewClick/?classid=2&id=20&down=5"></script>13</b>)</p>*/}}
+      </div>
+      <div class="nextinfo">
+          {{if .Article.prefixId}}
+        <p>上一篇：<a href="/info?id={{.Article.prefixId}}">{{.Article.prefixTitle}}</a></p>
+          {{end}}
+        {{if .Article.nextId}}
+        <p>下一篇：<a href="/info?id={{.Article.nextId}}">{{.Article.nextTitle}}</a></p>
+        {{end}}
+      </div>
+      <div class="news_pl">
+        <h2>文章评论</h2>
+        <div class="gbko">
+            <div id="commentlist">
+                {{range $index,$item := .comments}}
+              <div class="fb">
+                <ul>
+                  <p class="fbtime"><span>{{$item.CreateTime}}</span>{{$item.Name}}</p>
+                  <p class="fbinfo">{{$item.Content}}</p>
+                </ul>
+              </div>
+            {{end}}
+            </div>
+            <div style="overflow: hidden"><div id="pagination" class="pagination"><ul><li>首页</li><li class="disabled">&lt;</li><li class="active">1</li><li>2</li><li>3</li><li>4</li><li>5</li><li>&gt;</li><li>尾页</li><li class="totalPage"><span>跳转到</span><input type="number"><span>页</span></li><li class="totalPage">共&nbsp;50&nbsp;页</li><li class="totalPage">每页&nbsp;10&nbsp;条</li><li class="totalPage">合计&nbsp;500&nbsp;条数据</li></ul></div></div>
+            <form action="/e/pl/doaction.php" method="post" name="saypl" id="saypl" onsubmit="return CheckPl(document.saypl)">
+            <input name="id" type="hidden" id="id" value="{{.Article.id}}">
+            <div id="plpost">
+              <p class="saying"><span><a href="/e/pl/?classid=77&amp;id=106"></a></span>来说两句吧...</p>
+              <p class="yname"><span>用户名:</span>
+                <input name="name" type="text" class="inputText" id="username" value="" size="16">
+              </p>
+              <textarea name="saytext" rows="6" id="saytext"></textarea>
+                <input name="submit" type="submit" value="提交">
+              <input type="hidden" name="ecmsfrom" value="/joke/talk/2018-07-23/106.html">
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </main>
+</article>
+        <script>
+            window.onload = function () {
+                new myPagination({
+                    id: 'pagination',
+                    curPage:1, //初始页码
+                    pageTotal: 2, //总页数
+                    pageAmount: 4,  //每页多少条
+                    dataTotal: 2, //总共多少条数据
+                    pageSize: 5, //可选,分页个数
+                    showPageTotalFlag:true, //是否显示数据统计
+                    showSkipInputFlag:true, //是否支持跳转
+                    getPage: function (page) {
+                        //获取当前页数
+                        console.log(page);
+                        var data = new FormData();
+                        data.append("page",page);
+                        $.ajax({
+                            processData: false,//这个必须有，不然会报错
+                            contentType: false,//这个必须有，不然会报错
+                            type: "POST",
+                            url:"/info/comment_add",
+                            data:data,
+                            async: false,
+                            dataType:"json" ,
+                            success: function(data) {
+                                console.log(data);
+                                var html = '';
+                                data.forEach(function (v,i) {
+                                    html += '';
+                                });
+                                $("#list").html(html)
+                            }
+                        });
+                    }
+                })
+
+            };
+            function CheckPl(obj)
+            {
+                if(obj.saytext.value=="")
+                {
+                    alert("您没什么话要说吗？");
+                    obj.saytext.focus();
+                    return false;
+                }
+                return true;
+            }
+            $("input[name=submit]").click(function (e) {
+                var id = $("input[name=id]").val();
+                var name = $("input[name=name]").val();
+                var saytext = $("textarea[name=saytext]").val();
+                if(id == "") {
+                    alert("文章不存在");
+                    return false;
+                }
+                if(name == "") {
+                    alert("请填写你的姓名");
+                    return false;
+                }
+                if(saytext == "") {
+                    alert("请填写你想说的");
+                    return false;
+                }
+                var data = new FormData();
+                data.append("id",id);
+                data.append("name",name);
+                data.append("saytext",saytext);
+                $.ajax({
+                    processData: false,//这个必须有，不然会报错
+                    contentType: false,//这个必须有，不然会报错
+                    type: "POST",
+                    url:"/info/comment_add",
+                    data:data,
+                    async: false,
+                    dataType:"json" ,
+                    success: function(data) {
+                        if(data.status == 200){
+                            alert(data.message);
+                            window.location.href="/info?id="+id;
+                        }else {
+                            alert(data.message)
+                        }
+                    }
+                });
+                return false;
+            })
+            window.onload = function () {
+                new myPagination({
+                    id: 'pagination',
+                    curPage:1, //初始页码
+                    pageTotal: {{ .pageTotal}}, //总页数
+                    pageAmount: 4,  //每页多少条
+                    dataTotal: {{.dataTotal}}, //总共多少条数据
+                    pageSize: 5, //可选,分页个数
+                    showPageTotalFlag:true, //是否显示数据统计
+                    showSkipInputFlag:true, //是否支持跳转
+                    getPage: function (page) {
+                        //获取当前页数
+                        console.log(page);
+                        var data = new FormData();
+                        data.append("id",{{.Article.id}});
+                        data.append("page",page);
+                        $.ajax({
+                            processData: false,//这个必须有，不然会报错
+                            contentType: false,//这个必须有，不然会报错
+                            type: "POST",
+                            url:"/info/comment_get",
+                            data:data,
+                            async: false,
+                            dataType:"json" ,
+                            success: function(data) {
+                                console.log(data);
+                                var html = '';
+                                data.forEach(function (v,i) {
+                                    html += '<div class="fb">\n' +
+                                            '                <ul>\n' +
+                                            '                  <p class="fbtime"><span>'+ v.CreateTime+'</span>'+ v.Name +'</p>\n' +
+                                            '                  <p class="fbinfo">'+ v.Content +'</p>\n' +
+                                            '                </ul>\n' +
+                                            '              </div>';
+                                });
+                                $("#commentlist").html(html)
+                            }
+                        });
+                    }
+                })
+
+            }
+        </script>
+

@@ -1,0 +1,176 @@
+<link rel="stylesheet" href="/static/myPagination/myPagination.css">
+<script src="/static/myPagination/myPagination.js"></script>
+<article>
+  <aside class="l_box">
+    <div class="about_me">
+      <h2>关于我</h2>
+      <ul>
+        <i><img src="/static/img/4.jpg"></i>
+        <p><b>饶文然</b>，一个90后草根程序员！16年入行。一直潜心研究web开发技术，一边工作一边积累经验，分享一些个人博客模板，以及程序员心声。</p>
+      </ul>
+    </div>
+    <div class="wdxc">
+      <h2>我的相册</h2>
+      <ul>
+      {{range $index, $elem := .albums}}
+          <li><a href="/"><img src="{{$elem.Cover}}"></a></li>
+      {{end}}
+      </ul>
+    </div>
+     <div class="search">
+      <form action="/e/search/index.php" method="post" name="searchform" id="searchform">
+        <input name="keyboard" id="keyboard" class="input_text" value="请输入关键字词" style="color: rgb(153, 153, 153);" onfocus="if(value=='请输入关键字词'){this.style.color='#000';value=''}" onblur="if(value==''){this.style.color='#999';value='请输入关键字词'}" type="text">
+        <input name="show" value="title" type="hidden">
+        <input name="tempid" value="1" type="hidden">
+        <input name="tbname" value="news" type="hidden">
+        <input name="Submit" class="input_submit" value="搜索" type="submit">
+      </form>
+    </div>
+    <div class="fenlei">
+      <h2>文章分类</h2>
+      <ul>
+        <li><a href="/">学无止境（{{ .ArticleTagsCount.study}}）</a></li>
+        <li><a href="/">日记（{{ .ArticleTagsCount.journal}}）</a></li>
+        <li><a href="/">慢生活（{{ .ArticleTagsCount.life}}）</a></li>
+        <li><a href="/">美文欣赏（{{ .ArticleTagsCount.bellesLettres}}）</a></li>
+      </ul>
+    </div>
+    <div class="guanzhu">
+      <h2>关注我 么么哒</h2>
+      <ul>
+        <img src="/static/img/wx.png">
+      </ul>
+    </div>
+  </aside>
+  <main class="r_box">
+<div class="gbook">
+<div id="list">
+    {{range $index,$item := .messages}}
+      <div class="fb">
+        <ul>
+          <p class="fbtime"><span>{{$item.CreateTime}} </span> {{$item.Name}}</p>
+          <p class="fbinfo">{{$item.Content}}</p>
+        </ul>
+      </div>
+    {{if $item.Reply}}
+      <div class="hf">
+        <ul>
+          <p class="zzhf"><font color="#FF0000">站长回复:</font>{{$item.Reply}}</p>
+        </ul>
+      </div>
+    {{end}}
+   {{end}}
+</div>
+    <div style="overflow: hidden"><div id="pagination" class="pagination"><ul><li>首页</li><li class="disabled">&lt;</li><li class="active">1</li><li>2</li><li>3</li><li>4</li><li>5</li><li>&gt;</li><li>尾页</li><li class="totalPage"><span>跳转到</span><input type="number"><span>页</span></li><li class="totalPage">共&nbsp;50&nbsp;页</li><li class="totalPage">每页&nbsp;10&nbsp;条</li><li class="totalPage">合计&nbsp;500&nbsp;条数据</li></ul></div></div>
+    <div class="gbox">
+    <form action="/" method="post" id="form1">
+      <p> <strong>来说点儿什么吧...</strong></p>
+      <p><span> 您的姓名:</span>
+        <input name="name" type="text" id="name">
+        *</p>
+      <p><span>联系邮箱:</span>
+        <input name="email" type="text" id="email">
+        *</p>
+      <p><span class="tnr">留言内容:</span>
+        <textarea name="lytext" cols="60" rows="12" id="lytext"></textarea>
+      </p>
+      <p>
+        <input type="submit" name="SubmitMessag" value="提交">
+        {{/*<input name="enews" type="hidden" id="enews" value="AddGbook">*/}}
+      </p>
+    </form>
+  </div>
+    </div>
+  </main>
+</article>
+
+<script>
+    window.onload = function () {
+        new myPagination({
+            id: 'pagination',
+            curPage:1, //初始页码
+            pageTotal: {{ .pageTotal}}, //总页数
+            pageAmount: 4,  //每页多少条
+            dataTotal: {{.dataTotal}}, //总共多少条数据
+            pageSize: 5, //可选,分页个数
+            showPageTotalFlag:true, //是否显示数据统计
+            showSkipInputFlag:true, //是否支持跳转
+            getPage: function (page) {
+                //获取当前页数
+                console.log(page);
+                var data = new FormData();
+                data.append("page",page);
+                $.ajax({
+                    processData: false,//这个必须有，不然会报错
+                    contentType: false,//这个必须有，不然会报错
+                    type: "POST",
+                    url:"/gbook",
+                    data:data,
+                    async: false,
+                    dataType:"json" ,
+                    success: function(data) {
+                        console.log(data);
+                        var html = '';
+                        data.forEach(function (v,i) {
+                            html += '      <div class="fb">\n' +
+                                    '        <ul>\n' +
+                                    '          <p class="fbtime"><span>'+v.CreateTime+' </span> '+v.Name+'</p>\n' +
+                                    '          <p class="fbinfo">'+v.Content+'</p>\n' +
+                                    '        </ul>\n' +
+                                    '      </div>';
+                            if(v.Reply != ''){
+                                html += '      <div class="hf">\n' +
+                                        '        <ul>\n' +
+                                        '          <p class="zzhf"><font color="#FF0000">站长回复:</font>'+v.Reply+'</p>\n' +
+                                        '        </ul>\n' +
+                                        '      </div>';
+                            }
+                        });
+                        $("#list").html(html)
+                    }
+                });
+            }
+        })
+
+    }
+    $("input[name=SubmitMessag]").click(function (e) {
+        var name = $("input[name=name]").val();
+        var email = $("input[name=email]").val();
+        var lytext = $("textarea[name=lytext]").val();
+        if(name == "") {
+            alert("请填写你的姓名");
+            return false;
+        }
+        if(email == "") {
+            alert("请填写你的邮箱");
+            return false;
+        }
+        if(lytext == "") {
+            alert("请填写你想说的");
+            return false;
+        }
+        var data = new FormData();
+        data.append("name",name);
+        data.append("email",email);
+        data.append("lytext",lytext);
+        $.ajax({
+            processData: false,//这个必须有，不然会报错
+            contentType: false,//这个必须有，不然会报错
+            type: "POST",
+            url:"/gbook/add",
+            data:data,
+            async: false,
+            dataType:"json" ,
+            success: function(data) {
+                if(data.status == 200){
+                    alert(data.message)
+                    window.location.href="/gbook";
+                }else {
+                    alert(data.message)
+                }
+            }
+        });
+        return false;
+    })
+
+</script>

@@ -1,0 +1,187 @@
+<style>
+    .avatar-uploader .el-upload {
+        border: 1px dashed #d9d9d9;
+        border-radius: 6px;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+    }
+    .avatar-uploader .el-upload:hover {
+        border-color: #409EFF;
+    }
+    .avatar-uploader-icon {
+        font-size: 28px;
+        color: #8c939d;
+        width: 80px;
+        height: 80px;
+        line-height: 80px;
+        text-align: center;
+    }
+    .avatar {
+        width: 80px;
+        height: 80px;
+        display: block;
+    }
+</style>
+<div id="userAdd" style="margin-top: 20px;">
+    <el-form ref="form" :model="form" :rules="rules" label-width="80px">
+        <el-form-item label="头像">
+            <el-upload
+                    class="avatar-uploader"
+                    action="/user/avatarUpload"
+                    name="avatar"
+                    :show-file-list="false"
+                    :on-success="handleAvatarSuccess"
+                    :before-upload="beforeAvatarUpload">
+                <img v-if="form.avatarUrl" :src="form.avatarUrl" class="avatar">
+                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+            </el-upload>
+        </el-form-item>
+        <el-form-item label="会员名称" prop="UserName">
+            <el-input v-model="form.UserName"  style="width: 40%;"></el-input>
+        </el-form-item>
+        <el-form-item label="密　　码" prop="pass">
+            <el-input  type="password" v-model="form.pass" style="width: 40%;" ></el-input>
+        </el-form-item>
+        <el-form-item label="确认密码" prop="checkPass">
+            <el-input type="password" v-model="form.checkPass"  style="width: 40%;"></el-input>
+        </el-form-item>
+        <el-form-item label="超级会员">
+            <el-radio v-model="form.IsSuper" label="1">是</el-radio>
+            <el-radio v-model="form.IsSuper" label="0">否</el-radio>
+        </el-form-item>
+        <el-form-item label="登录状态">
+            <el-radio v-model="form.Status" label="1">是</el-radio>
+            <el-radio v-model="form.Status" label="0">否</el-radio>
+        </el-form-item>
+        <el-form-item label="真实姓名" >
+            <el-input v-model="form.RealName" style="width: 40%;"></el-input>
+        </el-form-item>
+        <el-form-item label="手机号码" >
+            <el-input v-model="form.Mobile" style="width: 40%;"></el-input>
+        </el-form-item>
+        <el-form-item label="电子邮件" >
+            <el-input v-model="form.Email" style="width: 40%;"></el-input>
+        </el-form-item>
+        <el-form-item label="性　　别" >
+            <el-radio v-model="form.Sex" label="1">男</el-radio>
+            <el-radio v-model="form.Sex" label="2">女</el-radio>
+            <el-radio v-model="form.Sex" label="3">保密</el-radio>
+        </el-form-item>
+        <el-form-item label="生　　日" prop="Birthday" >
+            <el-col :span="11">
+                <el-date-picker value-format="yyyy-MM-dd" type="date" placeholder="选择日期" v-model="form.Birthday" style="width: 50%;"></el-date-picker>
+            </el-col>
+        </el-form-item>
+        <el-form-item>
+            <el-button type="primary" @click="onSubmit('form')">立即创建</el-button>
+            <el-button @click="resetForm('form')">取消</el-button>
+        </el-form-item>
+    </el-form>
+</div>
+<script>
+    new Vue({
+        el: '#userAdd',
+        data() {
+            var validatePass = (rule, value, callback) => {
+                if (this.form.pass === '') {
+                    callback(new Error('请输入密码'));
+                } else {
+                    if (this.form.pass !== '') {
+                        this.$refs.form.validateField('checkPass');
+                    }
+                    callback();
+                }
+            };
+            var validatePass2 = (rule, value, callback) => {
+                if (this.form.checkPass === '') {
+                    callback(new Error('请再次输入密码'));
+                } else if (this.form.checkPass !== this.form.pass) {
+                    callback(new Error('两次输入密码不一致!'));
+                } else {
+                    callback();
+                }
+            };
+            return {
+                form: {
+                    avatarUrl: '',
+                    UserName: '',
+                    pass: '',
+                    checkPass: '',
+                    IsSuper: '0',
+                    Status: "1",
+                    RealName: '',
+                    Mobile: '',
+                    Email: '',
+                    Sex: '3',
+                    Birthday: '',
+                },
+                rules: {
+                    UserName: [
+                        { required: true, message: '请输入会员名称', trigger: 'blur' },
+                        { min: 0, max: 10, message: '长度在 0 到 10 个字符', trigger: 'blur' }
+                    ],
+                    pass: [
+                        { validator: validatePass,required: true, trigger: 'blur' }
+                    ],
+                    checkPass: [
+                        { validator: validatePass2,required: true, trigger: 'blur' }
+                    ],
+                }
+            }
+
+        },
+        methods: {
+            onSubmit(formName) {
+                this.$refs[formName].validate((valid) => {
+                    if (valid) {
+                        var formData = new FormData();
+                        formData.append('Avatar',this.form.avatarUrl);
+                        formData.append('UserName',this.form.UserName);
+                        formData.append('UserPwd1',this.form.pass);
+                        formData.append('UserPwd2',this.form.checkPass);
+                        formData.append('IsSuper',this.form.IsSuper);
+                        formData.append('Status',this.form.Status);
+                        formData.append('RealName',this.form.RealName);
+                        formData.append('Mobile',this.form.Mobile);
+                        formData.append('Email',this.form.Email);
+                        formData.append('Sex',this.form.Sex);
+                        formData.append('Birthday',this.form.Birthday);
+                        axios.post('/user/add',formData)
+                                .then((response)=>{
+                                    if(response.data.code == 200){
+                                        this.$message({
+                                            message: response.data.msg,
+                                            type: 'success'
+                                        });
+                                    }else {
+                                        this.$message.error(response.data.msg);
+                                    }
+                                })
+                                .catch((error)=>{
+                                    this.$message.error(error);
+                                });
+                    } else {
+                        this.$message.error("请完整填写");
+                        return false;
+                    }
+                });
+                return false;
+            },
+            handleAvatarSuccess(res, file) {
+                this.form.avatarUrl = res.url;
+            },
+            beforeAvatarUpload(file) {
+                const isLt2M = file.size / 1024 / 1024 < 2;
+                if (!isLt2M) {
+                    this.$message.error('上传头像图片大小不能超过 2MB!');
+                }
+                return isLt2M;
+            },
+            resetForm(formName) {
+                this.$refs[formName].resetFields();
+            }
+        },
+
+    })
+</script>

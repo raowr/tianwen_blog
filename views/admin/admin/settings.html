@@ -1,0 +1,126 @@
+<style>
+    .avatar-uploader .el-upload {
+        border: 1px dashed #d9d9d9;
+        border-radius: 6px;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+    }
+    .avatar-uploader .el-upload:hover {
+        border-color: #409EFF;
+    }
+    .avatar-uploader-icon {
+        font-size: 28px;
+        color: #8c939d;
+        width: 80px;
+        height: 80px;
+        line-height: 80px;
+        text-align: center;
+    }
+    .avatar {
+        width: 80px;
+        height: 80px;
+        display: block;
+    }
+</style>
+<div id="userAdd" style="margin-top: 20px;">
+    <el-form ref="form" :model="form" :rules="rules" label-width="80px">
+        <el-form-item label="头像">
+            <el-upload
+                    class="avatar-uploader"
+                    action="/user/avatarUpload"
+                    name="avatar"
+                    :show-file-list="false"
+                    :on-success="handleAvatarSuccess"
+                    :before-upload="beforeAvatarUpload">
+                <img v-if="form.avatarUrl" :src="form.avatarUrl" class="avatar">
+                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+            </el-upload>
+        </el-form-item>
+        <el-form-item label="管理员名称" prop="UserName" label-width="60">
+            <el-input v-model="form.UserName"  style="width: 36%;"></el-input>
+        </el-form-item>
+        <el-form-item label="真实姓名" >
+            <el-input v-model="form.RealName" style="width: 40%;"></el-input>
+        </el-form-item>
+        <el-form-item label="手机号码" >
+            <el-input v-model="form.Mobile" style="width: 40%;"></el-input>
+        </el-form-item>
+        <el-form-item label="电子邮件" >
+            <el-input v-model="form.Email" style="width: 40%;"></el-input>
+        </el-form-item>
+        <el-form-item>
+            <el-button type="primary" @click="onSubmit('form')">立即创建</el-button>
+            <el-button @click="resetForm('form')">取消</el-button>
+        </el-form-item>
+    </el-form>
+</div>
+<script>
+    new Vue({
+        el: '#userAdd',
+        data() {
+            return {
+                form: {
+                    avatarUrl: {{ .admin.Avatar}},
+                    UserName: {{ .admin.UserName}},
+                    RealName: {{ .admin.RealName}},
+                    Mobile: {{ .admin.Tel}},
+                    Email: {{ .admin.Email}},
+                },
+                rules: {
+                    UserName: [
+                        { required: true, message: '请输入会员名称', trigger: 'blur' },
+                        { min: 0, max: 10, message: '长度在 0 到 10 个字符', trigger: 'blur' }
+                    ]
+                }
+            }
+
+        },
+        methods: {
+            onSubmit(formName) {
+                this.$refs[formName].validate((valid) => {
+                    if (valid) {
+                        var formData = new FormData();
+                        formData.append('Avatar',this.form.avatarUrl);
+                        formData.append('UserName',this.form.UserName);
+                        formData.append('RealName',this.form.RealName);
+                        formData.append('Mobile',this.form.Mobile);
+                        formData.append('Email',this.form.Email);
+                        axios.post('/admin/settings',formData)
+                                .then((response)=>{
+                                    if(response.data.status == 200){
+                                        this.$message({
+                                            message: response.data.message,
+                                            type: 'success'
+                                        });
+                                    }else {
+                                        this.$message.error(response.data.message);
+                                    }
+                                })
+                                .catch((error)=>{
+                                    this.$message.error(error);
+                                });
+                    } else {
+                        this.$message.error("请完整填写");
+                        return false;
+                    }
+                });
+                return false;
+            },
+            handleAvatarSuccess(res, file) {
+                this.form.avatarUrl = res.url;
+            },
+            beforeAvatarUpload(file) {
+                const isLt2M = file.size / 1024 / 1024 < 2;
+                if (!isLt2M) {
+                    this.$message.error('上传头像图片大小不能超过 2MB!');
+                }
+                return isLt2M;
+            },
+            resetForm(formName) {
+                this.$refs[formName].resetFields();
+            }
+        },
+
+    })
+</script>

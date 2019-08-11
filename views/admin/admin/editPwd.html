@@ -1,0 +1,112 @@
+<style>
+    #app{
+        margin-top: 20px;
+    }
+</style>
+
+
+<div id="app" >
+    <el-form :model="pwdForm" ref="pwdForm" :rules="rules" >
+        <el-form-item label="原 密 码" prop="UserPwd" :label-width="formLabelWidth">
+            <el-input type="password" v-model="pwdForm.UserPwd" autocomplete="off" style="width: 29%;"></el-input>
+        </el-form-item>
+        <el-form-item label="新 密 码" prop="NewPwd" :label-width="formLabelWidth">
+            <el-input type="password" v-model="pwdForm.NewPwd" autocomplete="off" style="width: 29%;"></el-input>
+        </el-form-item>
+        <el-form-item label="确认密码" prop="VisiblePwd" :label-width="formLabelWidth">
+            <el-input type="password" v-model="pwdForm.VisiblePwd" autocomplete="off" style="width: 29%;"></el-input>
+        </el-form-item>
+    </el-form>
+    <div slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="onSubmitPwd('pwdForm')">确 定</el-button>
+        <el-button @click="resetPwdForm('pwdForm')">取 消</el-button>
+    </div>
+</div>
+<script>
+    new Vue({
+        el: '#app',
+        data(){
+            var validatePass = (rule, value, callback) => {
+                if (this.pwdForm.NewPwd === '') {
+                    callback(new Error('请输入新密码'));
+                } else {
+                    if (this.pwdForm.NewPwd !== '') {
+                        this.$refs.pwdForm.validateField('VisiblePwd');
+                    }
+                    callback();
+                }
+            };
+            var validatePass2 = (rule, value, callback) => {
+                if (this.pwdForm.VisiblePwd === '') {
+                    callback(new Error('请再次输入新密码'));
+                } else if (this.pwdForm.VisiblePwd !== this.pwdForm.NewPwd) {
+                    callback(new Error('两次输入密码不一致!'));
+                } else {
+                    callback();
+                }
+            };
+            return {
+                pwdForm:{
+                    UserPwd:'',
+                    NewPwd:'',
+                    VisiblePwd:'',
+                },
+                formLabelWidth:"80",
+                rules: {
+                    UserName: [
+                        { required: true, message: '请输入会员名称', trigger: 'blur' },
+                        { min: 0, max: 10, message: '长度在 0 到 10 个字符', trigger: 'blur' }
+                    ],
+                    NewPwd: [
+                        { validator: validatePass,required: true, trigger: 'blur' }
+                    ],
+                    VisiblePwd: [
+                        { validator: validatePass2,required: true, trigger: 'blur' }
+                    ],
+                    UserPwd:[
+                        {required: true, message: '请输入原密码',trigger: 'blur' }
+                    ]
+                }
+            }
+        },
+        methods:{
+            resetPwdForm(formName){
+
+            },
+            onSubmitPwd(formName){
+                this.$refs[formName].validate((valid) => {
+                    if (valid) {
+                        if(this.pwdForm.UserPwd == "") return this.$message.error("请输入原密码");
+                        if(this.pwdForm.NewPwd == "") return this.$message.error("请输入新密码");
+                        if(this.pwdForm.VisiblePwd == "") return this.$message.error("请输入确认密码");
+                        if(this.pwdForm.VisiblePwd != this.pwdForm.NewPwd) return this.$message.error("两次密码不一致");
+                        var pwdFormData = new FormData();
+                        pwdFormData.append('UserPwd',this.pwdForm.UserPwd);
+                        pwdFormData.append('NewPwd',this.pwdForm.NewPwd);
+                        pwdFormData.append('VisiblePwd',this.pwdForm.VisiblePwd);
+                        axios.post('/admin/editPwd',pwdFormData)
+                                .then((response)=>{
+                                    if(response.data.status == 200){
+                                        this.$message({
+                                            message: response.data.message,
+                                            type: 'success'
+                                        });
+                                        this.$refs[formName].resetFields();
+                                        this.dialogFormVisible = false
+                                        window.location.href="{{urlfor "LoginController.LoginOut"}}"
+                                    }else {
+                                        this.$message.error(response.data.message);
+                                    }
+                                })
+                                .catch((error)=>{
+                                    this.$message.error(error);
+                                });
+                    } else {
+                        this.$message.error("请完整填写");
+                        return false;
+                    }
+                })
+            }
+        }
+    })
+</script>

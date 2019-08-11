@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Focus Admin: Creative Admin Dashboard</title>
+    <!-- ================= Favicon ================== -->
+    <!-- Styles -->
+    <link href="/static/assets/css/lib/calendar2/pignose.calendar.min.css" rel="stylesheet">
+    <link href="/static/assets/css/lib/chartist/chartist.min.css" rel="stylesheet">
+    <link href="/static/assets/css/lib/font-awesome.min.css" rel="stylesheet">
+    <link href="/static/assets/css/lib/themify-icons.css" rel="stylesheet">
+    <link href="/static/assets/css/lib/owl.carousel.min.css" rel="stylesheet" />
+    <link href="/static/assets/css/lib/owl.theme.default.min.css" rel="stylesheet" />
+    <link href="/static/assets/css/lib/weather-icons.css" rel="stylesheet" />
+    <link href="/static/assets/css/lib/menubar/sidebar.css" rel="stylesheet">
+    <link href="/static/assets/css/lib/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/assets/css/lib/helper.css" rel="stylesheet">
+    <link href="/static/assets/css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/element.css">
+    <link rel="stylesheet" href="/static/font-awesome/css/font-awesome.min.css" media="all">
+    <!-- import Vue.js -->
+    <script src="/static/js/vue.js"></script>
+    <!-- 引入组件库 -->
+    <script src="/static/js/element.js"></script>
+    <!-- 引入组axios -->
+    <script src="/static/js/axios.min.js"></script>
+    <script src="/static/assets/js/lib/jquery.min.js"></script>
+</head>
+
+<body>
+<div class="sidebar sidebar-hide-to-small sidebar-shrink sidebar-gestures">
+    <div class="nano">
+        <div class="nano-content">
+            <ul>
+                <div class="logo"><a href="index.html"> {{/*<img src="/static/assets/images/logo.png" alt="" />*/}} <span>饶文然</span></a></div>
+                <li class="label">Apps</li>
+                <li><a href="/admin"><i class="ti-calendar"></i> 网站信息</a></li>
+                <li><a href="/article/list"><i class="ti-calendar"></i> 文章管理</a></li>
+                <li><a href="/album/list"><i class="ti-calendar"></i> 相册管理</a></li>
+                <li><a href="/user/list"><i class="ti-calendar"></i> 会员管理</a></li>
+                <li><a href="/message/list"><i class="ti-calendar"></i> 留言管理</a></li>
+                <li><a href="/comment/list"><i class="ti-calendar"></i> 评论管理</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- /# sidebar -->
+{{/*<div class="tlinks">Collect from <a href="http://www.cssmoban.com/" >自助建站</a></div>*/}}
+
+{{.head}}
+
+<div class="content-wrap">
+    <div class="main">
+        <div class="container-fluid">
+            {{.LayoutContent}}
+        </div>
+    </div>
+</div>
+
+<!-- jquery vendor -->
+<script src="/static/assets/js/lib/jquery.min.js"></script>
+<script src="/static/assets/js/lib/jquery.nanoscroller.min.js"></script>
+<!-- nano scroller -->
+<script src="/static/assets/js/lib/menubar/sidebar.js"></script>
+<script src="/static/assets/js/lib/preloader/pace.min.js"></script>
+<!-- sidebar -->
+
+<script src="/static/assets/js/lib/bootstrap.min.js"></script>
+<script src="/static/assets/js/scripts.js"></script>
+<!-- bootstrap -->
+
+<script src="/static/assets/js/lib/calendar-2/moment.latest.min.js"></script>
+<script src="/static/assets/js/lib/calendar-2/pignose.calendar.min.js"></script>
+<script src="/static/assets/js/lib/calendar-2/pignose.init.js"></script>
+
+
+<script src="/static/assets/js/lib/weather/jquery.simpleWeather.min.js"></script>
+<script src="/static/assets/js/lib/weather/weather-init.js"></script>
+<script src="/static/assets/js/lib/circle-progress/circle-progress.min.js"></script>
+<script src="/static/assets/js/lib/circle-progress/circle-progress-init.js"></script>
+<script src="/static/assets/js/lib/chartist/chartist.min.js"></script>
+<script src="/static/assets/js/lib/sparklinechart/jquery.sparkline.min.js"></script>
+<script src="/static/assets/js/lib/sparklinechart/sparkline.init.js"></script>
+<script src="/static/assets/js/lib/owl-carousel/owl.carousel.min.js"></script>
+<script src="/static/assets/js/lib/owl-carousel/owl.carousel-init.js"></script>
+<!-- scripit init-->
+<script src="/static/assets/js/dashboard2.js"></script>
+</body>
+
+</html>

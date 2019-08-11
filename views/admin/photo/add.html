@@ -1,0 +1,122 @@
+<div id="photoAdd" style="margin-top: 20px;">
+    <el-form ref="form" :model="form" label-width="80px">
+        <el-form-item label="选择相册">
+            <el-select v-model="form.title" placeholder="请选择相册">
+                <el-option label="在水一方" value="1"></el-option>
+                <el-option label="精彩生活" value="2"></el-option>
+            </el-select>
+        </el-form-item>
+        <el-form-item label="相片列表">
+            <el-upload
+                    name="photo"
+                    action="/photo/upload"
+                    list-type="picture-card"
+                    :data="form"
+                    :before-upload="beforeUpload"
+                    :on-preview="handlePictureCardPreview"
+                    :on-success="success"
+                    :on-remove="handleRemove">
+                <i class="el-icon-plus"></i>
+            </el-upload>
+            <el-dialog :visible.sync="dialogVisible">
+                <img width="100%" :src="dialogImageUrl" alt="">
+            </el-dialog>
+        </el-form-item>
+        <el-form-item>
+            <el-button type="primary" @click="onSubmit">确定</el-button>
+            <el-button @click="cancel">取消</el-button>
+        </el-form-item>
+    </el-form>
+</div>
+<script>
+    new Vue({
+        el: '#photoAdd',
+        data: {
+            form: {
+                title: '',
+            },
+            ids:[],
+            dialogImageUrl: '',
+            dialogVisible: false
+        },
+        methods: {
+            onSubmit() {
+                var formData = new FormData();
+                formData.append('title',this.form.title);
+                formData.append('ids',this.ids.join(','));
+                axios.post('/photo/update',formData)
+                        .then((response)=>{
+                            if(response.data.code == 200){
+                                this.$message({
+                                    message: response.data.msg,
+                                    type: 'success'
+                                });
+                            }else {
+                                this.$message.error(response.data.msg);
+                            }
+                        })
+                        .catch((error)=>{
+                            this.$message.error(error);
+                        });
+            },
+            cancel(){
+                var formData = new FormData();
+                formData.append('ids',this.ids.join(','));
+                axios.post('/photo/cancel',formData)
+                        .then((response)=>{
+                            if(response.data.code == 200){
+                                this.$message({
+                                    message: response.data.msg,
+                                    type: 'success'
+                                });
+                                location.reload();
+                            }else {
+                                this.$message.error(response.data.msg);
+                            }
+                        })
+                        .catch((error)=>{
+                            this.$message.error(error);
+                        });
+            },
+            success(response, file, fileList){
+                file.id = response.id;
+                if(response.code == 200){
+                    this.ids.push(response.id)
+                    this.$message.success(response.msg);
+                }else {
+                    this.$message.error(response.msg);
+                }
+            },
+            beforeUpload(file){
+                if(this.form.title == ""){
+                    this.$message.error("请选择相册");
+                    return false;
+                }
+            },
+            handleRemove(file, fileList) {
+                var formData = new FormData();
+                formData.append('id',file.id);
+                axios.post('/photo/delete',formData)
+                        .then((response)=>{
+                            if(response.data.code == 200){
+                                this.$message({
+                                    message: response.data.msg,
+                                    type: 'success'
+                                });
+                            }else {
+                                this.$message.error(response.data.msg);
+                            }
+                        })
+                        .catch((error)=>{
+                            this.$message.error(error);
+                        });
+            },
+            handlePictureCardPreview(file) {
+                console.log(1);
+                console.log(file.response);
+                this.dialogImageUrl = file.url;
+                this.dialogVisible = true;
+            }
+        },
+    })
+</script>

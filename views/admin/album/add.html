@@ -1,0 +1,119 @@
+<style>
+    .avatar-uploader .el-upload {
+        border: 1px dashed #d9d9d9;
+        border-radius: 6px;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+    }
+    .avatar-uploader .el-upload:hover {
+        border-color: #409EFF;
+    }
+    .avatar-uploader-icon {
+        font-size: 28px;
+        color: #8c939d;
+        width: 120px;
+        height: 80px;
+        line-height: 80px;
+        text-align: center;
+    }
+    .avatar {
+        width: 120px;
+        height: 80px;
+        display: block;
+    }
+</style>
+
+<div id="albumAdd" style="margin-top: 20px;">
+    <el-form ref="form" :model="form" label-width="80px">
+        <el-form-item label="封面图">
+            <el-upload
+                    class="avatar-uploader"
+                    action="/user/avatarUpload"
+                    name="avatar"
+                    :show-file-list="false"
+                    :on-success="handleAvatarSuccess"
+                    :before-upload="beforeAvatarUpload">
+                <img v-if="form.cover" :src="form.cover" class="avatar">
+                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+            </el-upload>
+        </el-form-item>
+        <el-form-item label="相册标题" >
+            <el-input v-model="form.title"></el-input>
+        </el-form-item>
+        <el-form-item label="相册状态">
+            <el-select v-model="form.status" placeholder="请选择状态">
+                <el-option label="草稿" value="1"></el-option>
+                <el-option label="发布" value="2"></el-option>
+                <el-option label="下架" value="3"></el-option>
+            </el-select>
+        </el-form-item>
+        <el-form-item label="相册描述">
+            <textarea id="editor_id" name="content">
+                &lt;strong&gt;相册描述内容&lt;/strong&gt;
+            </textarea>
+        </el-form-item>
+        <el-form-item>
+            <el-button type="primary" @click="onSubmit">立即创建</el-button>
+            <el-button>取消</el-button>
+        </el-form-item>
+    </el-form>
+</div>
+
+<script charset="utf-8" src="/static/kindeditor/kindeditor-all-min.js"></script>
+<script charset="utf-8" src="/static/kindeditor/lang/zh-CN.js"></script>
+<script>
+    KindEditor.ready(function(K) {
+        window.editor = K.create('#editor_id',{ width : '1000px',height:'350px'});
+    });
+</script>
+<script>
+    new Vue({
+        el: '#albumAdd',
+        data: {
+            form: {
+                title: '',
+                status:'',
+                content:'',
+                cover:''
+            }
+        },
+        methods: {
+            onSubmit() {
+                this.form.content = editor.html();
+                var formData = new FormData();
+                formData.append('title',this.form.title);
+                formData.append('status',this.form.status);
+                formData.append('content',this.form.content);
+                formData.append('cover',this.form.cover);
+                axios.post('/album/add',formData)
+                        .then((response)=>{
+                            if(response.data.code == 200){
+                                this.$message({
+                                    message: response.data.msg,
+                                    type: 'success'
+                                });
+                            }else {
+                                this.$message.error(response.data.msg);
+                            }
+                        })
+                        .catch((error)=>{
+                            this.$message.error(error);
+                        });
+            },
+            handleAvatarSuccess(res, file) {
+                this.form.cover = res.url;
+            },
+            beforeAvatarUpload(file) {
+                const isLt2M = file.size / 1024 / 1024 < 2;
+                if (!isLt2M) {
+                    this.$message.error('上传头像图片大小不能超过 2MB!');
+                }
+                return isLt2M;
+            },
+            resetForm(formName) {
+                this.$refs[formName].resetFields();
+            }
+        },
+    })
+</script>

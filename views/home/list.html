@@ -1,0 +1,103 @@
+<link rel="stylesheet" href="/static/myPagination/myPagination.css">
+<script src="/static/myPagination/myPagination.js"></script>
+<article>
+  <aside class="l_box">
+ <div class="search">
+      <form action="/e/search/index.php" method="post" name="searchform" id="searchform">
+        <input name="keyboard" id="keyboard" class="input_text" value="请输入关键字词" style="color: rgb(153, 153, 153);" onfocus="if(value=='请输入关键字词'){this.style.color='#000';value=''}" onblur="if(value==''){this.style.color='#999';value='请输入关键字词'}" type="text">
+        <input name="show" value="title" type="hidden">
+        <input name="tempid" value="1" type="hidden">
+        <input name="tbname" value="news" type="hidden">
+        <input name="Submit" class="input_submit" value="搜索" type="submit">
+      </form>
+    </div>
+    <div class="fenlei">
+      <h2>文章分类</h2>
+      <ul>
+        <li><a href="/">学无止境（{{.ArticleTagsCount.study}}）</a></li>
+        <li><a href="/">日记（{{.ArticleTagsCount.journal}}）</a></li>
+        <li><a href="/">慢生活（{{.ArticleTagsCount.life}}）</a></li>
+        <li><a href="/">美文欣赏（{{.ArticleTagsCount.bellesLettres}}）</a></li>
+      </ul>
+    </div>
+    <div class="tuijian">
+      <h2>站长推荐</h2>
+      <ul>
+      {{range $index, $elem := .ArticleRecommend}}
+          <li><a href="/">{{$elem.Title}}</a></li>
+      {{end}}
+      </ul>
+    </div>
+     <div class="tuijian">
+      <h2>点击排行</h2>
+      <ul>
+      {{range $index, $elem := .ArticleViews}}
+          <li><a href="/">{{$elem.Title}}</a></li>
+      {{end}}
+      </ul>
+    </div>
+<div class="cloud">
+      <h2>我的标签</h2>
+      <ul>
+        <a href="/">热情</a> <a href="/">开朗</a> <a href="/">html5</a> <a href="/">SumSung</a> <a href="/">青春</a> <a href="/">温暖</a> <a href="/">阳光</a> <a href="/">PHP</a><a href="/">Vue</a> <a href="/">MySql</a> <a href="/">Ngnix</a> <a href="/">CSS</a><a href="/">Linux</a>
+      </ul>
+    </div>
+    <div class="guanzhu">
+      <h2>关注我 么么哒</h2>
+      <ul>
+        <img src="/static/img/wx.png">
+      </ul>
+    </div>
+  </aside>
+  <main class="r_box">
+  {{range $index, $elem := .articles}}
+      <li><i><a href="/info?id={{$elem.Id}}"><img src="{{$elem.BannerUrl}}"></a></i>
+          <h3><a href="/info?id={{$elem.Id}}">{{$elem.Title}}</a></h3>
+          <p>{{$elem.Content}}</p>
+      </li>
+  {{end}}
+  </main>
+    <div id="pagination" class="pagination"><ul><li>首页</li><li class="disabled">&lt;</li><li class="active">1</li><li>2</li><li>3</li><li>4</li><li>5</li><li>&gt;</li><li>尾页</li><li class="totalPage"><span>跳转到</span><input type="number"><span>页</span></li><li class="totalPage">共&nbsp;50&nbsp;页</li><li class="totalPage">每页&nbsp;10&nbsp;条</li><li class="totalPage">合计&nbsp;500&nbsp;条数据</li></ul></div>
+</article>
+
+<script>
+    window.onload = function () {
+        new myPagination({
+            id: 'pagination',
+            curPage:1, //初始页码
+            pageTotal: {{ .pageTotal}}, //总页数
+            pageAmount: 2,  //每页多少条
+            dataTotal: {{.dataTotal}}, //总共多少条数据
+            pageSize: 1, //可选,分页个数
+            showPageTotalFlag:true, //是否显示数据统计
+            showSkipInputFlag:true, //是否支持跳转
+            getPage: function (page) {
+                //获取当前页数
+                console.log(page);
+                var data = new FormData();
+                data.append("page",page);
+                $.ajax({
+                    processData: false,//这个必须有，不然会报错
+                    contentType: false,//这个必须有，不然会报错
+                    type: "POST",
+                    url:"/list",
+                    data:data,
+                    async: false,
+                    dataType:"json" ,
+                    success: function(data) {
+                        console.log(data);
+                        var html = '';
+                        data.forEach(function (v,i) {
+                            html += '<li><i><a href="/"><img src="'+v.BannerUrl+'"></a></i>\n' +
+                                    '          <h3><a href="/">'+v.Title+'</a></h3>\n' +
+                                    '          <p>'+v.Content+'</p>\n' +
+                                    '      </li>';
+                        });
+                        $(".r_box").html(html)
+                    }
+                });
+            }
+        })
+
+    }
+</script>
