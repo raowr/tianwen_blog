@@ -1,32 +1,19 @@
 
-<style>
-    article{
-        width: 1200px;
-    }
-    .picbox ul{
-        width: 100%;
-        min-height: 550px;
-    }
-    .over{
-        float: left;
-        overflow: hidden;
-        width: 24%;
-    }
-</style>
 <link rel="stylesheet" href="/static/myPagination/myPagination.css">
 <script src="/static/myPagination/myPagination.js"></script>
 <article>
   <div class="picbox">
-    <ul>
-        {{range $index, $elem := .albumList}}
-            <li class="over" data-scroll-reveal="enter bottom over 1s" ><a href="/infopic?id={{$elem.Id}}"><i><img src="{{$elem.Cover}}"></i>
-                <div class="picinfo">
-                    <h3>{{$elem.Title}}</h3>
-                    <span>{{$elem.Describe}}</span> </div>
-            </a>
-            </li>
-        {{end}}
-    </ul>
+      {{range $index,$item := .albumList}}
+      <ul>
+          {{range $indexAlbum,$itemAlbum := $item}}
+          <li data-scroll-reveal="enter bottom over 1s" ><a href="/"><i><img src="{{$itemAlbum.Cover}}"></i>
+              <div class="picinfo">
+                  <h3>{{$itemAlbum.Title}}</h3>
+                  <span>{{$itemAlbum.Describe}}</span> </div>
+          </a></li>
+          {{end}}
+      </ul>
+      {{end}}
   </div>
     <div id="pagination" class="pagination"><ul><li>首页</li><li class="disabled">&lt;</li><li class="active">1</li><li>2</li><li>3</li><li>4</li><li>5</li><li>&gt;</li><li>尾页</li><li class="totalPage"><span>跳转到</span><input type="number"><span>页</span></li><li class="totalPage">共&nbsp;50&nbsp;页</li><li class="totalPage">每页&nbsp;10&nbsp;条</li><li class="totalPage">合计&nbsp;500&nbsp;条数据</li></ul></div>
 </article>
