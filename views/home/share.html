@@ -6,7 +6,7 @@
       {{range $index,$item := .albumList}}
       <ul>
           {{range $indexAlbum,$itemAlbum := $item}}
-          <li data-scroll-reveal="enter bottom over 1s" ><a href="/"><i><img src="{{$itemAlbum.Cover}}"></i>
+          <li data-scroll-reveal="enter bottom over 1s" ><a href="/infopic?id={{$itemAlbum.Id}}"><i><img src="{{$itemAlbum.Cover}}"></i>
               <div class="picinfo">
                   <h3>{{$itemAlbum.Title}}</h3>
                   <span>{{$itemAlbum.Describe}}</span> </div>
