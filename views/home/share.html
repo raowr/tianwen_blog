@@ -44,15 +44,18 @@
                     dataType:"json" ,
                     success: function(data) {
                         var html = '';
-                        data.forEach(function (v,i) {
-                            html += '<li class="over" data-scroll-reveal="enter bottom over 1s" ><a href="/"><i><img src="'+ v.Cover +'"></i>\n' +
-                                    '                <div class="picinfo">\n' +
-                                    '                    <h3>'+ v.Title +'</h3>\n' +
-                                    '                    <span>'+ v.Describe +'</span> </div>\n' +
-                                    '            </a>\n' +
-                                    '            </li>';
+                        Object.keys(data).forEach(function (key) {
+                            html += '<ul>';
+                            Object.keys(data[key]).forEach(function (key1) {
+                                html +='<li data-scroll-reveal="enter bottom over 1s" ><a href="/infopic?id='+data[key][key1].Id+'"><i><img src="'+data[key][key1].Cover+'"></i>\n' +
+                                        '              <div class="picinfo">\n' +
+                                        '                  <h3>'+data[key][key1].Title+'</h3>\n' +
+                                        '                  <span>'+data[key][key1].Describe+'</span> </div>\n' +
+                                        '          </a></li>';
+                            })
+                            html +='</ul>'
                         });
-                        $(".picbox ul").html(html)
+                        $('.picbox').html(html)
                     }
                 });
             }
