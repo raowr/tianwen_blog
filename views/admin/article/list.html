@@ -1,5 +1,7 @@
 <div id="article"style="margin-top: 10px;">
-    <a href="/article/add"><el-button type="primary" icon="el-icon-plus" plain >添加文章</el-button></a>
+    <el-input v-model="keyword" style="width: 25%;" placeholder="请输入内容"></el-input>
+    <el-button @click="search" type="primary" icon="el-icon-search" plain>搜索</el-button>
+    <a href="/article/add"><el-button type="primary" icon="el-icon-plus" plain style="float: right;">添加文章</el-button></a>
     <el-table
             :data="articleList"
             border
@@ -57,7 +59,7 @@
                 :page-sizes="[5, 10, 20, 40]"
                 :page-size="100"
                 layout="total, sizes, prev, pager, next, jumper"
-                :total={{.total}}>
+                :total="total">
         </el-pagination>
     </div>
 </div>
@@ -70,6 +72,8 @@
             currentPage: 1,
             page:1,
             pagesize:5,
+            total:{{.total}},
+            keyword:'',
         },
         created: function () {
             this.creatData()
@@ -98,10 +102,10 @@
                 var pageData = new FormData();
                 pageData.append("page",this.page);
                 pageData.append("pagesize",this.pagesize);
+                pageData.append("keyword",this.keyword);
                 axios.post('/article/list',pageData).then((response)=>{
-                    console.log(response.data);
-                    if(response.data.length > 0){
-                        this.sysData(response.data)
+                    if(response.data.total > 0){
+                        this.sysData(response.data.articles)
                     }else {
                         this.$message.error("无数据");
                     }
@@ -117,6 +121,22 @@
                     articleListData[i].Status = value.Status == "1" ? "草稿" : (value.Status == "2" ? "发布" : "下架")
                 });
                 this.articleList = articleListData;
+            },
+            search(){
+                var pageData = new FormData();
+                pageData.append("keyword",this.keyword);
+                console.log(this.keyword);
+                axios.post('/article/list',pageData).then((response)=>{
+                    if(response.data.total > 0){
+                        this.total = response.data.total;
+                        this.sysData(response.data.articles);
+                    }else {
+                        this.$message.error("无数据");
+                    }
+                })
+                        .catch((error)=>{
+                            this.$message.error(error);
+                        });
             }
 
         },

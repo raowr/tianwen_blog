@@ -9,31 +9,50 @@ type ArticleController struct {
 	BaseController
 }
 
-func (c *ArticleController) List()  {
-	page,pagesize := c.getPage()
+func (c *ArticleController) List() {
+	page, pagesize := c.getPage()
 	var articles []*models.Article
+	var total int64
 	article := new(models.Article)
-	article.Query().Limit(pagesize,(page -1 )*pagesize).All(&articles)
-	for i,value := range articles{
-		articles[i].Content = string([]rune(value.Content)[:80])
-	}
-	if c.Ctx.Request.Method == "POST"{
-		c.Data["json"] = articles
+	articleObj := article.Query().Limit(pagesize, (page-1)*pagesize)
+	if c.Ctx.Request.Method == "POST" {
+		list := make(map[string]interface{})
+		keyword := c.GetString("keyword")
+		if keyword != "" {
+			articleObj.Filter("title__icontains", keyword).All(&articles)
+			total, _ = article.Query().Filter("title__icontains", keyword).Count()
+		} else {
+			articleObj.All(&articles)
+			total, _ = article.Query().Count()
+		}
+		for i, value := range articles {
+			articles[i].Content = string([]rune(value.Content)[:80])
+		}
+
+		list["articles"] = articles
+		list["total"] = total
+		c.Data["json"] = list
 		c.ServeJSON()
+	} else {
+		articleObj.All(&articles)
+		for i, value := range articles {
+			articles[i].Content = string([]rune(value.Content)[:80])
+		}
+		total, _ = article.Query().Count()
+		c.Data["list"] = articles
+		c.Data["total"] = total
+		c.display("admin/article/list")
 	}
-	c.Data["list"] = articles
-	c.Data["total"],_ = article.Query().Count()
-	c.display("admin/article/list")
 }
 
-func (c *ArticleController) Add()  {
-	if c.Ctx.Request.Method == "POST"{
+func (c *ArticleController) Add() {
+	if c.Ctx.Request.Method == "POST" {
 		title := c.GetString("title")
 		tags := c.GetString("tags")
-		status,_ := c.GetInt("status")
+		status, _ := c.GetInt("status")
 		content := c.GetString("content")
 		bannerUrl := c.GetString("bannerUrl")
-		recommend,_ := c.GetInt("recommend")
+		recommend, _ := c.GetInt("recommend")
 		adminInfo := c.GetSession("admin")
 		admin, _ := adminInfo.(models.Admin)
 
@@ -50,7 +69,7 @@ func (c *ArticleController) Add()  {
 		re := make(map[string]interface{})
 		re["code"] = 200
 		re["msg"] = "发布成功"
-		if err := Article.Insert(); err !=nil{
+		if err := Article.Insert(); err != nil {
 			re["code"] = 201
 			re["msg"] = err
 		}
@@ -61,18 +80,18 @@ func (c *ArticleController) Add()  {
 	c.display("admin/article/add")
 }
 
-func (c *ArticleController) Edit()  {
-	id,_ := strconv.Atoi(c.GetString("id"))
-	article := models.Article{Id:id}
+func (c *ArticleController) Edit() {
+	id, _ := strconv.Atoi(c.GetString("id"))
+	article := models.Article{Id: id}
 	articleData := models.Article{}
-	if c.Ctx.Request.Method == "POST"{
-		article.Query().One(&articleData,"CreateTime")
+	if c.Ctx.Request.Method == "POST" {
+		article.Query().One(&articleData, "CreateTime")
 		title := c.GetString("title")
 		tags := c.GetString("tags")
-		status,_ := c.GetInt("status")
+		status, _ := c.GetInt("status")
 		content := c.GetString("content")
 		bannerUrl := c.GetString("bannerUrl")
-		recommend,_ := c.GetInt("recommend")
+		recommend, _ := c.GetInt("recommend")
 		article.Title = title
 		article.Tags = tags
 		article.Status = status
@@ -84,7 +103,7 @@ func (c *ArticleController) Edit()  {
 		re := make(map[string]interface{})
 		re["code"] = 200
 		re["msg"] = "编辑成功"
-		if err := article.Update(); err !=nil{
+		if err := article.Update(); err != nil {
 			re["code"] = 201
 			re["msg"] = err
 		}
