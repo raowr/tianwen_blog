@@ -18,13 +18,13 @@ func (c *ArticleController) List() {
 	if c.Ctx.Request.Method == "POST" {
 		list := make(map[string]interface{})
 		keyword := c.GetString("keyword")
+		articleTotal := article.Query()
 		if keyword != "" {
-			articleObj.Filter("title__icontains", keyword).All(&articles)
-			total, _ = article.Query().Filter("title__icontains", keyword).Count()
-		} else {
-			articleObj.All(&articles)
-			total, _ = article.Query().Count()
+			articleObj = articleObj.Filter("title__icontains", keyword)
+			articleTotal = article.Query().Filter("title__icontains", keyword)
 		}
+		articleObj.All(&articles)
+		total, _ = articleTotal.Count()
 		for i, value := range articles {
 			articles[i].Content = string([]rune(value.Content)[:80])
 		}
