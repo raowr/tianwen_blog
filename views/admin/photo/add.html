@@ -1,9 +1,13 @@
 <div id="photoAdd" style="margin-top: 20px;">
     <el-form ref="form" :model="form" label-width="80px">
         <el-form-item label="选择相册">
-            <el-select v-model="form.title" placeholder="请选择相册">
-                <el-option label="在水一方" value="1"></el-option>
-                <el-option label="精彩生活" value="2"></el-option>
+            <el-select v-model="albumId" filterable placeholder="请选择">
+                <el-option
+                        v-for="item in albums"
+                        :key="item.Id"
+                        :label="item.Title"
+                        :value="item.Id">
+                </el-option>
             </el-select>
         </el-form-item>
         <el-form-item label="相片列表">
@@ -32,9 +36,9 @@
     new Vue({
         el: '#photoAdd',
         data: {
-            form: {
-                title: '',
-            },
+            form:{},
+            albums:{{ .albums }},
+            albumId:'',
             ids:[],
             dialogImageUrl: '',
             dialogVisible: false
@@ -42,7 +46,7 @@
         methods: {
             onSubmit() {
                 var formData = new FormData();
-                formData.append('title',this.form.title);
+                formData.append('albumId',this.albumId);
                 formData.append('ids',this.ids.join(','));
                 axios.post('/photo/update',formData)
                         .then((response)=>{
@@ -88,7 +92,7 @@
                 }
             },
             beforeUpload(file){
-                if(this.form.title == ""){
+                if(this.albumId == ""){
                     this.$message.error("请选择相册");
                     return false;
                 }

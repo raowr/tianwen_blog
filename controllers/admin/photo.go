@@ -15,10 +15,10 @@ type PhotoController struct {
 	BaseController
 }
 
-func (c *PhotoController) Upload()  {
+func (c *PhotoController) Upload() {
 	album := new(models.Album)
-	albumId ,_ := c.GetInt("title")
-	album.Id=albumId
+	albumId, _ := c.GetInt("title")
+	album.Id = albumId
 	f, h, err := c.GetFile("photo")
 	if err != nil {
 		log.Fatal("getfile err ", err)
@@ -29,59 +29,70 @@ func (c *PhotoController) Upload()  {
 	var obj map[string]string
 	var photo models.Photo
 	uploadUrl := beego.AppConfig.String("uploadUrl")
-	req:=httplib.Post(uploadUrl)
-	req.PostFile("file",file)//注意是全路径
-	req.Param("output","json")
-	req.Param("scene","")
-	req.Param("path","")
+	req := httplib.Post(uploadUrl)
+	req.PostFile("file", file) //注意是全路径
+	req.Param("output", "json")
+	req.Param("scene", "")
+	req.Param("path", "")
 	req.ToJSON(&obj)
-	photo.Url=obj["url"]
-	data,_ := json.Marshal(obj)
+	photo.Url = obj["url"]
+	data, _ := json.Marshal(obj)
 	photo.Data = string(data)
 	photo.Album = album
 	re := make(map[string]interface{})
 	re["code"] = 200
 	re["msg"] = "添加成功"
-	if err := photo.Insert(); err!=nil{
+	if err := photo.Insert(); err != nil {
 		re["code"] = 201
 		re["msg"] = "添加失败"
 		re["error"] = err.Error()
-	}else {
+	} else {
 		re["id"] = photo.Id
 	}
 	c.Data["json"] = re
 	c.ServeJSON()
 }
 
-func (c *PhotoController) List()  {
+func (c *PhotoController) List() {
 	photo := new(models.Photo)
 	albun := new(models.Album)
-	var photoList  []*models.Photo
-	albumId ,_ := c.GetInt("id")
+	var photoList []*models.Photo
+	albumId, _ := c.GetInt("id")
 	albun.Id = albumId
 	photo.Album = albun
-	photo.Query().Filter("Album",albun).All(&photoList)
-	for _,v := range photoList{
+	photo.Query().Filter("Album", albun).All(&photoList)
+	for _, v := range photoList {
 		fmt.Println(v)
 	}
 	c.Data["list"] = photoList
 	c.display("admin/photo/list")
 }
 
-func (c *PhotoController) Add()  {
+func (c *PhotoController) Add() {
+	album := new(models.Album)
+	var albums []*models.Album
+	var albumList []interface{}
+	album.Query().All(&albums)
+	for _, v := range albums {
+		albumV := make(map[string]interface{})
+		albumV["Id"] = v.Id
+		albumV["Title"] = v.Title
+		albumList = append(albumList, albumV)
+	}
+	c.Data["albums"] = albumList
 	c.display("admin/photo/add")
 }
 
-func (c *PhotoController) Update()  {
+func (c *PhotoController) Update() {
 	photo := new(models.Photo)
 	album := new(models.Album)
-	albumId ,_ := c.GetInt("title")
+	albumId, _ := c.GetInt("albumId")
 	album.Id = albumId
 	ids := c.GetString("ids")
 	idslice := strings.Split(ids, ",")
 	photo.Album = album
-	for  _,value := range idslice{
-		photo.Id,_ = strconv.Atoi(value)
+	for _, value := range idslice {
+		photo.Id, _ = strconv.Atoi(value)
 		photo.Update("Album")
 	}
 	re := make(map[string]interface{})
@@ -91,13 +102,13 @@ func (c *PhotoController) Update()  {
 	c.ServeJSON()
 }
 
-func (c *PhotoController) Delete()  {
-	Id ,_ := c.GetInt("id")
-	photo := models.Photo{Id:Id}
+func (c *PhotoController) Delete() {
+	Id, _ := c.GetInt("id")
+	photo := models.Photo{Id: Id}
 	re := make(map[string]interface{})
 	re["code"] = 200
 	re["msg"] = "删除成功"
-	if err := photo.Delete();err != nil{
+	if err := photo.Delete(); err != nil {
 		re["code"] = 201
 		re["msg"] = "删除失败"
 		re["error"] = err.Error()
@@ -106,13 +117,13 @@ func (c *PhotoController) Delete()  {
 	c.ServeJSON()
 }
 
-func (c *PhotoController) Cancel()  {
+func (c *PhotoController) Cancel() {
 	photo := new(models.Photo)
 	ids := c.GetString("ids")
 	idslice := strings.Split(ids, ",")
 	re := make(map[string]interface{})
-	for  _,value := range idslice{
-		photo.Id,_ = strconv.Atoi(value)
+	for _, value := range idslice {
+		photo.Id, _ = strconv.Atoi(value)
 		photo.Delete()
 	}
 	re["code"] = 200
