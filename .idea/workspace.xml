@@ -2,18 +2,32 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="55c26800-4408-406d-ac13-6e721052ba97" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/static/resume/images/me.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/img/melogo.jpg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controllers/admin/photo.go" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/admin/photo.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/simple_blog" beforeDir="false" afterPath="$PROJECT_DIR$/simple_blog" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/resume/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/resume/css/style.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/admin/photo/add.html" beforeDir="false" afterPath="$PROJECT_DIR$/views/admin/photo/add.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/home/about.html" beforeDir="false" afterPath="$PROJECT_DIR$/views/home/about.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/home/gbook.html" beforeDir="false" afterPath="$PROJECT_DIR$/views/home/gbook.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/home/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/views/home/index.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="DatabaseView">
+    <option name="SHOW_INTERMEDIATE" value="true" />
+    <option name="GROUP_DATA_SOURCES" value="true" />
+    <option name="GROUP_SCHEMA" value="true" />
+    <option name="GROUP_CONTENTS" value="false" />
+    <option name="SORT_POSITIONED" value="false" />
+    <option name="SHOW_EMPTY_GROUPS" value="false" />
+    <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
+    <option name="HIDDEN_KINDS">
+      <set />
+    </option>
+    <expand />
+    <select />
   </component>
   <component name="FUSProjectUsageTrigger">
     <session id="-1783499579">
@@ -29,13 +43,14 @@
           <entry key="project.open.time.43" value="1" />
           <entry key="project.open.time.45" value="2" />
           <entry key="project.open.time.47" value="1" />
+          <entry key="project.open.time.49" value="1" />
           <entry key="project.open.time.51" value="1" />
           <entry key="project.open.time.55" value="1" />
           <entry key="project.open.time.63" value="2" />
           <entry key="project.open.time.66" value="1" />
           <entry key="project.open.time.85" value="1" />
           <entry key="project.open.time.96" value="1" />
-          <entry key="project.opened" value="19" />
+          <entry key="project.opened" value="20" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
@@ -43,8 +58,8 @@
           <entry key="conf" value="5" />
           <entry key="css" value="1" />
           <entry key="go" value="30" />
-          <entry key="html" value="16" />
-          <entry key="jpg" value="13" />
+          <entry key="html" value="19" />
+          <entry key="jpg" value="14" />
           <entry key="js" value="1" />
           <entry key="md" value="1" />
           <entry key="png" value="1" />
@@ -55,8 +70,8 @@
           <entry key="CSS" value="1" />
           <entry key="Go" value="30" />
           <entry key="HOCON" value="5" />
-          <entry key="HTML" value="16" />
-          <entry key="Image" value="14" />
+          <entry key="HTML" value="19" />
+          <entry key="Image" value="15" />
           <entry key="JavaScript" value="1" />
           <entry key="Markdown" value="1" />
         </counts>
@@ -66,9 +81,9 @@
           <entry key="conf" value="119" />
           <entry key="css" value="3" />
           <entry key="go" value="570" />
-          <entry key="html" value="1172" />
+          <entry key="html" value="1195" />
           <entry key="md" value="2" />
-          <entry key="txt" value="124" />
+          <entry key="txt" value="132" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
@@ -76,9 +91,9 @@
           <entry key="CSS" value="3" />
           <entry key="Go" value="570" />
           <entry key="HOCON" value="119" />
-          <entry key="HTML" value="1172" />
+          <entry key="HTML" value="1195" />
           <entry key="Markdown" value="2" />
-          <entry key="PLAIN_TEXT" value="124" />
+          <entry key="PLAIN_TEXT" value="132" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.go.postfix.template.usages.trigger">
@@ -104,20 +119,44 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/views/admin/photo/add.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="286">
-              <caret line="46" column="24" lean-forward="true" selection-start-line="46" selection-start-column="24" selection-end-line="46" selection-end-column="24" />
-              <folding>
-                <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
-              </folding>
+            <state relative-caret-position="1012">
+              <caret line="46" column="24" selection-start-line="46" selection-start-column="24" selection-end-line="46" selection-end-column="24" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/controllers/admin/photo.go">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="484">
+              <caret line="70" column="33" selection-start-line="70" selection-start-column="33" selection-end-line="70" selection-end-column="33" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/views/home/index.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="110">
+              <caret line="5" column="41" selection-start-line="5" selection-start-column="35" selection-end-line="5" selection-end-column="41" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/controllers/admin/photo.go">
+        <entry file="file://$PROJECT_DIR$/views/home/about.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="242">
-              <caret line="80" column="5" lean-forward="true" selection-start-line="80" selection-start-column="5" selection-end-line="80" selection-end-column="5" />
+            <state relative-caret-position="378">
+              <caret line="58" lean-forward="true" selection-start-line="58" selection-end-line="58" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/views/home/gbook.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-2108">
+              <caret line="7" column="49" selection-start-line="7" selection-start-column="49" selection-end-line="7" selection-end-column="49" />
             </state>
           </provider>
         </entry>
@@ -181,7 +220,6 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/models/AdminMenu.go" />
-        <option value="$PROJECT_DIR$/views/home/index.html" />
         <option value="$PROJECT_DIR$/controllers/home/share.go" />
         <option value="$PROJECT_DIR$/views/home/share.html" />
         <option value="$PROJECT_DIR$/views/admin/layout.html" />
@@ -194,8 +232,11 @@
         <option value="$PROJECT_DIR$/views/home/layout.html" />
         <option value="$PROJECT_DIR$/conf/app.conf" />
         <option value="$PROJECT_DIR$/views/home/resume.html" />
-        <option value="$PROJECT_DIR$/controllers/admin/photo.go" />
         <option value="$PROJECT_DIR$/views/admin/photo/add.html" />
+        <option value="$PROJECT_DIR$/controllers/admin/photo.go" />
+        <option value="$PROJECT_DIR$/views/home/index.html" />
+        <option value="$PROJECT_DIR$/views/home/gbook.html" />
+        <option value="$PROJECT_DIR$/views/home/about.html" />
       </list>
     </option>
   </component>
@@ -223,7 +264,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -234,28 +274,31 @@
             <path>
               <item name="simple_blog" type="b2602c69:ProjectViewProjectNode" />
               <item name="simple_blog" type="462c0819:PsiDirectoryNode" />
-              <item name="controllers" type="462c0819:PsiDirectoryNode" />
+              <item name="static" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="simple_blog" type="b2602c69:ProjectViewProjectNode" />
               <item name="simple_blog" type="462c0819:PsiDirectoryNode" />
-              <item name="controllers" type="462c0819:PsiDirectoryNode" />
-              <item name="admin" type="462c0819:PsiDirectoryNode" />
+              <item name="static" type="462c0819:PsiDirectoryNode" />
+              <item name="img" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
       <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
+    <property name="DatabaseDriversLRU" value="mysql" />
     <property name="DefaultGoTemplateProperty" value="Go File" />
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="GO_FMT" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1566135817912" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1566399265601" />
+    <property name="database.console.LAST_STATE" value="true" />
     <property name="go.gopath.indexing.explicitly.defined" value="true" />
     <property name="go.sdk.automatically.set" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../livego/livego1" />
@@ -264,6 +307,7 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/static/img" />
       <recent name="$PROJECT_DIR$/static/resume/images" />
       <recent name="$PROJECT_DIR$/static/resume" />
     </key>
@@ -308,7 +352,8 @@
       <workItem from="1566115088006" duration="2879000" />
       <workItem from="1566118943586" duration="1051000" />
       <workItem from="1566135349487" duration="492000" />
-      <workItem from="1566394411766" duration="1830000" />
+      <workItem from="1566394411766" duration="3023000" />
+      <workItem from="1566398942084" duration="296000" />
     </task>
     <task id="LOCAL-00001" summary="首页">
       <created>1565539707212</created>
@@ -422,17 +467,31 @@
       <option name="project" value="LOCAL" />
       <updated>1566135831962</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="添加相片">
+      <created>1566396309948</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1566396309948</updated>
+    </task>
+    <task id="LOCAL-00018" summary="添加相片">
+      <created>1566396462946</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1566396462946</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="42179000" />
+    <option name="totallyTimeSpent" value="43668000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-1" y="-1" width="1442" height="866" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.19827586" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.20114942" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -446,7 +505,7 @@
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Database Changes" order="7" />
       <window_info anchor="bottom" id="Terminal" order="8" weight="0.55479455" />
       <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
       <window_info anchor="bottom" id="Version Control" order="10" show_stripe_button="false" />
@@ -457,7 +516,7 @@
       <window_info anchor="right" id="Capture Analysis" order="4" />
       <window_info anchor="right" id="Theme Preview" order="5" />
       <window_info anchor="right" id="Palette&#9;" order="6" />
-      <window_info anchor="right" id="Database" order="7" />
+      <window_info anchor="right" id="Database" order="7" weight="0.3297414" />
       <window_info anchor="right" id="Maven Projects" order="8" />
     </layout>
   </component>
@@ -481,20 +540,14 @@
     <MESSAGE value="简历" />
     <MESSAGE value="个人简历" />
     <MESSAGE value="修改配置" />
-    <option name="LAST_COMMIT_MESSAGE" value="修改配置" />
+    <MESSAGE value="添加相片" />
+    <option name="LAST_COMMIT_MESSAGE" value="添加相片" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/tests/default_test.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="264">
           <caret line="22" column="30" lean-forward="true" selection-start-line="22" selection-start-column="30" selection-end-line="22" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/home/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="198">
-          <caret line="9" column="24" selection-start-line="9" selection-start-column="24" selection-end-line="9" selection-end-column="24" />
         </state>
       </provider>
     </entry>
@@ -655,33 +708,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/models/Base.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="22" column="22" selection-start-line="22" selection-start-column="22" selection-end-line="22" selection-end-column="22" />
-          <folding>
-            <element signature="e#16#130#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/conf/app.conf">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="154">
-          <caret line="7" column="22" selection-start-line="7" selection-start-column="22" selection-end-line="7" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/models/Album.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="132">
-          <caret line="9" column="9" selection-start-line="9" selection-start-column="4" selection-end-line="9" selection-end-column="9" />
-          <folding>
-            <element signature="e#16#66#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/models/Article.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="88">
@@ -719,20 +745,68 @@
     <entry file="file://$PROJECT_DIR$/controllers/admin/index.go">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
+    <entry file="file://$PROJECT_DIR$/conf/app.conf">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="154">
+          <caret line="7" column="22" selection-start-line="7" selection-start-column="22" selection-end-line="7" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/views/admin/photo/add.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="286">
-          <caret line="46" column="24" lean-forward="true" selection-start-line="46" selection-start-column="24" selection-end-line="46" selection-end-column="24" />
+        <state relative-caret-position="1012">
+          <caret line="46" column="24" selection-start-line="46" selection-start-column="24" selection-end-line="46" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/Album.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="132">
+          <caret line="9" column="9" selection-start-line="9" selection-start-column="4" selection-end-line="9" selection-end-column="9" />
           <folding>
-            <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="e#16#66#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/Base.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="374">
+          <caret line="22" column="22" selection-start-line="22" selection-start-column="22" selection-end-line="22" selection-end-column="22" />
+          <folding>
+            <element signature="e#16#130#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/controllers/admin/photo.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="242">
-          <caret line="80" column="5" lean-forward="true" selection-start-line="80" selection-start-column="5" selection-end-line="80" selection-end-column="5" />
+        <state relative-caret-position="484">
+          <caret line="70" column="33" selection-start-line="70" selection-start-column="33" selection-end-line="70" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/img/4.jpg">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/home/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="110">
+          <caret line="5" column="41" selection-start-line="5" selection-start-column="35" selection-end-line="5" selection-end-column="41" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/home/gbook.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2108">
+          <caret line="7" column="49" selection-start-line="7" selection-start-column="49" selection-end-line="7" selection-end-column="49" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/home/about.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="378">
+          <caret line="58" lean-forward="true" selection-start-line="58" selection-end-line="58" />
         </state>
       </provider>
     </entry>
