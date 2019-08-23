@@ -99,7 +99,7 @@
         },
         methods: {
             onSubmit() {
-                this.form.content = editor.html();
+                this.form.content = editor.text();
                 var formData = new FormData();
                 formData.append('id',{{ .article.Id}});
                 formData.append('title',this.form.title);
