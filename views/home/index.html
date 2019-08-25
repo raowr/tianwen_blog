@@ -58,7 +58,7 @@
   {{range $index, $elem := .articles}}
       <li><i><a href="/info?id={{$elem.Id}}"><img src="{{$elem.BannerUrl}}"></a></i>
           <h3><a href="/info?id={{$elem.Id}}">{{$elem.Title}}</a></h3>
-          <p>{{$elem.Content}}</p>
+          <p>{{$elem.Briefly}}</p>
       </li>
   {{end}}
 

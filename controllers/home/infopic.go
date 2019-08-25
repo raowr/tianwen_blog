@@ -26,7 +26,10 @@ func (c *InfopicController) Index() {
 	//id,_ := c.GetInt("id",0)
 	albumInfo := make(map[string]interface{})
 	album.Id = id
-	album.Read()
+	if err := album.Read(); err != nil {
+		c.Redirect("/error", 302)
+		c.StopRun()
+	}
 	//增加浏览数
 	album.Views++
 	album.Update("Views")

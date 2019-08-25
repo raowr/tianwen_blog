@@ -26,9 +26,6 @@ func (c *IndexController) Index() {
 	//文章列表
 	var articles []*models.Article
 	Article.Query().Filter("Status", 2).OrderBy("-Views").Limit(10, 0).All(&articles)
-	for i, v := range articles {
-		articles[i].Content = string([]rune(v.Content)[:80])
-	}
 	c.Data["albums"] = albums
 	c.Data["ArticleTagsCount"] = ArticleTagsCount
 	c.Data["ArticleRecommend"] = ArticleRecommend

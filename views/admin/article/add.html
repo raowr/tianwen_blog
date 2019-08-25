@@ -90,17 +90,20 @@
                 title: '',
                 tags:'',
                 status:'',
+                briefly:'',
                 content:'',
                 recommend:"0"
             }
         },
         methods: {
             onSubmit() {
-                this.form.content = editor.text();
+                this.form.content = editor.html();
+                this.form.briefly = this.cutstr(editor.text(),120);
                 var formData = new FormData();
                 formData.append('title',this.form.title);
                 formData.append('tags',this.form.tags);
                 formData.append('status',this.form.status);
+                formData.append('briefly',this.form.briefly);
                 formData.append('content',this.form.content);
                 formData.append('bannerUrl',this.form.bannerUrl);
                 formData.append('recommend',this.form.recommend);
@@ -132,6 +135,29 @@
             },
             resetForm(formName) {
                 this.$refs[formName].resetFields();
+            },
+            cutstr(str, len){
+                var str_length = 0;
+                var str_len = 0;
+                str_cut = new String();
+                str_len = str.length;
+                for (var i = 0; i < str_len; i++) {
+                    a = str.charAt(i);
+                    str_length++;
+                    if (escape(a).length > 4) {
+                        //中文字符的长度经编码之后大于4
+                        str_length++;
+                    }
+                    str_cut = str_cut.concat(a);
+                    if (str_length >= len) {
+                        str_cut = str_cut.concat("...");
+                        return str_cut;
+                    }
+                }
+                //如果给定字符串小于指定长度，则返回源字符串；
+                if (str_length < len) {
+                    return str;
+                }
             }
         },
     })

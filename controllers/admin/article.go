@@ -18,15 +18,22 @@ func (c *ArticleController) List() {
 	if c.Ctx.Request.Method == "POST" {
 		list := make(map[string]interface{})
 		keyword := c.GetString("keyword")
+		status, _ := c.GetInt("statusValue", 0)
 		articleTotal := article.Query()
 		if keyword != "" {
 			articleObj = articleObj.Filter("title__icontains", keyword)
 			articleTotal = article.Query().Filter("title__icontains", keyword)
 		}
+		if status != 0 {
+			articleObj = articleObj.Filter("Status", status)
+			articleTotal = article.Query().Filter("Status", status)
+		}
 		articleObj.All(&articles)
 		total, _ = articleTotal.Count()
 		for i, value := range articles {
-			articles[i].Content = string([]rune(value.Content)[:80])
+			if len(value.Briefly) > 60 {
+				articles[i].Briefly = string([]rune(value.Briefly)[:60])
+			}
 		}
 
 		list["articles"] = articles
@@ -36,7 +43,9 @@ func (c *ArticleController) List() {
 	} else {
 		articleObj.All(&articles)
 		for i, value := range articles {
-			articles[i].Content = string([]rune(value.Content)[:80])
+			if len(value.Briefly) > 60 {
+				articles[i].Briefly = string([]rune(value.Briefly)[:60])
+			}
 		}
 		total, _ = article.Query().Count()
 		c.Data["list"] = articles
@@ -50,6 +59,7 @@ func (c *ArticleController) Add() {
 		title := c.GetString("title")
 		tags := c.GetString("tags")
 		status, _ := c.GetInt("status")
+		briefly := c.GetString("briefly")
 		content := c.GetString("content")
 		bannerUrl := c.GetString("bannerUrl")
 		recommend, _ := c.GetInt("recommend")
@@ -60,6 +70,7 @@ func (c *ArticleController) Add() {
 		Article.Title = title
 		Article.Tags = tags
 		Article.Status = status
+		Article.Briefly = briefly
 		Article.Content = content
 		Article.BannerUrl = bannerUrl
 		Article.Recommend = recommend
@@ -89,12 +100,14 @@ func (c *ArticleController) Edit() {
 		title := c.GetString("title")
 		tags := c.GetString("tags")
 		status, _ := c.GetInt("status")
+		briefly := c.GetString("briefly")
 		content := c.GetString("content")
 		bannerUrl := c.GetString("bannerUrl")
 		recommend, _ := c.GetInt("recommend")
 		article.Title = title
 		article.Tags = tags
 		article.Status = status
+		article.Briefly = briefly
 		article.Content = content
 		article.BannerUrl = bannerUrl
 		article.Recommend = recommend

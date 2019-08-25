@@ -33,7 +33,14 @@ func (c *InfoController) Index() {
 	Article.Query().OrderBy("-Views").Filter("Status", 2).Limit(8, 0).All(&ArticleViews)
 	id, _ := c.GetInt("id")
 	Article.Id = id
-	Article.Read()
+	if err := Article.Read(); err != nil {
+		c.Redirect("/error", 302)
+		c.StopRun()
+	}
+	if Article.Status == 3 {
+		c.Redirect("/error", 302)
+		c.StopRun()
+	}
 	//浏览数增加
 	Article.Views++
 	if err := Article.Update("Views"); err != nil {

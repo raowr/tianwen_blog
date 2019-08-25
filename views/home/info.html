@@ -62,7 +62,8 @@
           </ul>
         </div>
         <div class="tags"><a href="/" target="_blank">小博客</a> &nbsp; <a href="/" target="_blank">大世界</a></div>
-      {{.Article.content}}
+          <div id="content">
+          </div>
       </div>
       <div class="share">
         {{/*<p class="diggit"><a href="JavaScript:makeRequest('/e/public/digg/?classid=3&amp;id=19&amp;dotop=1&amp;doajax=1&amp;ajaxarea=diggnum','EchoReturnedText','GET','');"> 很赞哦！ </a>(<b id="diggnum"><script type="text/javascript" src="/e/public/ViewClick/?classid=2&id=20&down=5"></script>13</b>)</p>*/}}
@@ -107,6 +108,7 @@
   </main>
 </article>
         <script>
+            $("#content").html({{.Article.content}});
             window.onload = function () {
                 new myPagination({
                     id: 'pagination',
