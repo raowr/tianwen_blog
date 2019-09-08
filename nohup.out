@@ -1,0 +1,18 @@
+table `article` already exists, skip
+table `album` already exists, skip
+table `photo` already exists, skip
+table `user` already exists, skip
+table `messages` already exists, skip
+table `admin` already exists, skip
+table `comment` already exists, skip
+2019/08/21 22:20:10.779 [1;34m[I] [asm_amd64.s:1333]  http server Running on http://localhost:8080[0m
+2019/08/21 22:20:10.780 [1;35m[C] [asm_amd64.s:1333]  ListenAndServe:  listen tcp 127.0.0.1:8080: bind: address already in use[0m
+table `article` already exists, skip
+table `album` already exists, skip
+table `photo` already exists, skip
+table `user` already exists, skip
+table `messages` already exists, skip
+table `admin` already exists, skip
+table `comment` already exists, skip
+2019/08/21 22:21:04.494 [1;34m[I] [asm_amd64.s:1333]  http server Running on http://localhost:8080[0m
+2019/08/21 22:21:04.495 [1;35m[C] [asm_amd64.s:1333]  ListenAndServe:  listen tcp 127.0.0.1:8080: bind: address already in use[0m
