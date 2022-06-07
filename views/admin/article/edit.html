@@ -27,6 +27,7 @@
     <el-form ref="form" :model="form" label-width="80px">
         <el-form-item label="侧面图">
             <el-upload
+                    enctype="multipart/form-data"
                     class="avatar-uploader"
                     action="/user/avatarUpload"
                     name="avatar"

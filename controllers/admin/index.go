@@ -1,6 +1,6 @@
 package admin
 
-import "simple_blog/models"
+import "tianwen_blog/models"
 
 type IndexController struct {
 	BaseController

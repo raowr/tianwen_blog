@@ -1,8 +1,9 @@
 package admin
 
 import (
-	"simple_blog/models"
 	"strconv"
+	"tianwen_blog/models"
+	"unicode/utf8"
 )
 
 type ArticleController struct {
@@ -43,7 +44,7 @@ func (c *ArticleController) List() {
 	} else {
 		articleObj.All(&articles)
 		for i, value := range articles {
-			if len(value.Briefly) > 60 {
+			if utf8.RuneCountInString(value.Briefly) > 60 {
 				articles[i].Briefly = string([]rune(value.Briefly)[:60])
 			}
 		}

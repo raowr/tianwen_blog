@@ -3,8 +3,8 @@ package admin
 import (
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/httplib"
-	"simple_blog/models"
 	"strings"
+	"tianwen_blog/models"
 	"time"
 )
 
@@ -179,12 +179,15 @@ func (c *UserController) Add() {
 }
 
 func (c *UserController) AvatarUpload()  {
-	uploadUrl := beego.AppConfig.String("uploadUrl")
+
 	_, h, _ := c.GetFile("avatar")
 	file := "static/upload/" + h.Filename
+	//defer f.Close()
+	c.SaveToFile("avatar", file) // 保存位置在 static/upload, 没有文件夹要先创建
 	var obj interface{}
+	uploadUrl := beego.AppConfig.String("uploadUrl")
 	req:=httplib.Post(uploadUrl)
-	req.PostFile("file",file)//注意是全路径
+	req.PostFile("file", file)//注意不是全路径
 	req.Param("output","json")
 	req.Param("scene","")
 	req.Param("path","")

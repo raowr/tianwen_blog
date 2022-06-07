@@ -2,7 +2,7 @@ package admin
 
 import (
 	"github.com/astaxie/beego"
-	"simple_blog/models"
+	"tianwen_blog/models"
 )
 
 type LoginController struct {

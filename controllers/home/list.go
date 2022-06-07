@@ -2,7 +2,7 @@ package home
 
 import (
 	"math"
-	"simple_blog/models"
+	"tianwen_blog/models"
 )
 
 type ListController struct {

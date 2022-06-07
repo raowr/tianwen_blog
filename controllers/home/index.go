@@ -1,7 +1,7 @@
 package home
 
 import (
-	"simple_blog/models"
+	"tianwen_blog/models"
 )
 
 type IndexController struct {

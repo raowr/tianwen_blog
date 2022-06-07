@@ -2,8 +2,8 @@ package routers
 
 import (
 	"github.com/astaxie/beego"
-	"simple_blog/controllers/admin"
-	"simple_blog/controllers/home"
+	"tianwen_blog/controllers/admin"
+	"tianwen_blog/controllers/home"
 )
 
 func init() {

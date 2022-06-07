@@ -1,10 +1,10 @@
 package main
 
 import (
-	_ "simple_blog/routers"
 	"github.com/astaxie/beego"
-	_"simple_blog/models"
-	"simple_blog/controllers"
+	"tianwen_blog/controllers"
+	_ "tianwen_blog/models"
+	_ "tianwen_blog/routers"
 )
 
 func main() {

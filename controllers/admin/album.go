@@ -1,7 +1,7 @@
 package admin
 
 import (
-	"simple_blog/models"
+	"tianwen_blog/models"
 )
 
 type AlbumController struct {

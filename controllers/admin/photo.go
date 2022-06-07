@@ -6,7 +6,7 @@ import (
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/httplib"
 	"log"
-	"simple_blog/models"
+	"tianwen_blog/models"
 	"strconv"
 	"strings"
 )
